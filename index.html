@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><path fill=%22%232563eb%22 d=%22M4 25 L12 17 L20 20 L28 10 L28 13 L20 23 L12 20 L4 28 Z%22/><path fill=%22%231d4ed8%22 d=%22M28 6 L28 10 L25 10 Z%22/></svg>">
     <title>Investment Calculator</title>
     <style>
         :root {
@@ -43,10 +44,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 15px 20px;
+            margin-bottom: 7px;
+            padding: 10px 25px;
             background: white;
-            border-radius: 16px;
+            border-radius: 10px;
             box-shadow: var(--shadow);
         }
 
@@ -62,7 +63,7 @@
         .header__actions {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: flex-end;
         }
@@ -76,8 +77,8 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 10px 15px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.2s ease;
@@ -92,13 +93,13 @@
         .calculator {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .input-section, .results-section {
             background: white;
-            border-radius: 16px;
+            border-radius: 10px;
             padding: 20px;
             box-shadow: var(--shadow);
         }
@@ -106,17 +107,20 @@
         .section__title {
             font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px 20px;
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
         }
 
         .input-group { /* This can remain as a block itself */
@@ -167,8 +171,8 @@
 
         .result-card {
             background: var(--secondary);
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
             transition: transform 0.2s ease;
             min-height: 100px;
@@ -200,28 +204,28 @@
 
         .milestones-section {
             background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             box-shadow: var(--shadow);
         }
 
         .milestones-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            gap: 10px;
         }
 
         .milestone-card {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 8px;
+            padding: 10px;
             border-left: 4px solid var(--primary);
         }
 
         .milestone-card__title {
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--primary);
         }
 
@@ -232,27 +236,27 @@
 
         .plan-section {
             background: white;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 10px;
             box-shadow: var(--shadow);
         }
 
         .plan-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .plan-table__header {
             background: var(--secondary);
-            padding: 12px 16px;
+            padding: 8px 10px;
             text-align: left;
             font-weight: 600;
             border-bottom: 2px solid var(--border);
         }
 
         .plan-table__cell {
-            padding: 12px 16px;
+            padding: 8px 10px;
             border-bottom: 1px solid var(--border);
         }
 
@@ -276,7 +280,7 @@
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
                 text-align: center;
             }
 
@@ -295,7 +299,7 @@
 
             .results-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                gap: 8px;
             }
 
             .milestones-grid {
@@ -303,7 +307,7 @@
             }
             
             .result-card {
-                padding: 12px;
+                padding: 10px;
                 min-height: 90px;
             }
             
@@ -320,7 +324,7 @@
             }
 
             body {
-                padding: 10px;
+                padding: 8px;
             }
 
             .input-section, .results-section, .milestones-section, .plan-section {
@@ -328,7 +332,7 @@
             }
             
             .result-card {
-                padding: 10px;
+                padding: 8px;
                 min-height: 80px;
             }
             
@@ -348,17 +352,726 @@
                         <img src="https://img.shields.io/github/stars/shtormish/RevCalc?style=social" alt="GitHub Stars">
                     </a>
                     <a href="https://github.com/shtormish/RevCalc/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
-                        <img src="https://img.shields.io/github/license/shtormish/RevCalc" alt="License: MIT">
+                        <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
                     </a>
                 </div>
                 <button class="header__button" id="languageToggle">RU</button>
             </div>
         </div>
 
-        <div class="calculator">
-            <div class="input-section">
-                <h2 class="section__title">Input Parameters</h2>
-                <div class="input-grid">
+        <main class="calculator">
+            <section class="input-section">
+                <fieldset>
+                    <legend class="section__title">Input Parameters</legend>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label class="input-group__label" for="initialAmount" id="initialAmountLabel">Initial Investment Amount</label>
+                            <input type="number" class="input-group__field" id="initialAmount" value="10000" min="0">
+                            <div class="input-group__hint" id="initialAmountHint">The starting amount of your investment. This is the base amount that will earn interest over time.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-group__label" for="interestRate" id="interestRateLabel">Annual Interest Rate (%)</label>
+                            <input type="number" class="input-group__field" id="interestRate" value="8" min="0" max="100" step="0.1">
+                            <div class="input-group__hint" id="interestRateHint">The annual percentage rate at which your investment will grow. Higher rates mean faster growth.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-group__label" for="compounding" id="compoundingLabel">Compounding Period</label>
+                            <select class="input-group__field" id="compounding">
+                                <option value="0">No Compounding</option>
+                                <option value="1">Daily</option>
+                                <option value="30">Monthly</option>
+                                <option value="90">Quarterly</option>
+                                <option value="180">Semi-Annually</option>
+                                <option value="365" selected>Annually</option>
+                            </select>
+                            <div class="input-group__hint" id="compoundingHint">How often interest is added to your principal. More frequent compounding leads to higher returns.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-group__label" for="investmentTerm" id="investmentTermLabel">Investment Term</label>
+                            <div class="input-group__row">
+                                <input type="number" class="input-group__field" id="investmentTerm" value="10" min="0">
+                                <select class="input-group__field" id="termUnit">
+                                    <option value="1">Days</option>
+                                    <option value="30">Months</option>
+                                    <option value="365" selected>Years</option>
+                                </select>
+                            </div>
+                            <div class="input-group__hint" id="investmentTermHint">The duration of your investment. Longer terms generally lead to higher returns due to compounding.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-group__label" for="additionalAmount" id="additionalInvestmentLabel">Additional Investment</label>
+                            <div class="input-group__row">
+                                <input type="number" class="input-group__field" id="additionalAmount" value="0" min="0">
+                                <select class="input-group__field" id="additionalFrequency">
+                                    <option value="0">No Additional</option>
+                                    <option value="1">Daily</option>
+                                    <option value="30" selected>Monthly</option>
+                                    <option value="90">Quarterly</option>
+                                    <option value="365">Annually</option>
+                                </select>
+                            </div>
+                            <div class="input-group__hint" id="additionalInvestmentHint">Regular additional investments can significantly boost your final amount through dollar-cost averaging.</div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-group__label" for="targetMonthlyIncome" id="targetMonthlyIncomeLabel">Target Monthly Income (X)</label>
+                            <input type="number" class="input-group__field" id="targetMonthlyIncome" value="1000" min="0">
+                            <div class="input-group__hint" id="targetMonthlyIncomeHint">The monthly income you want to achieve from your investment. This helps plan for financial goals.</div>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+
+            <section class="results-section">
+                <h2 class="section__title">Calculated Results</h2>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-card__label" id="finalAmountLabel">Final Amount</div>
+                        <div class="result-card__value" id="finalAmountValue" aria-live="polite">0</div>
+                        <div class="result-card__hint" id="finalAmountHint">Total amount at the end of investment period including all profits</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="totalProfitLabel">Total Profit</div>
+                        <div class="result-card__value" id="totalProfitValue" aria-live="polite">0</div>
+                        <div class="result-card__hint" id="totalProfitHint">Absolute profit and percentage gain over the entire period</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="effectiveRateLabel">Effective Rate</div>
+                        <div class="result-card__value" id="effectiveRateValue" aria-live="polite">0%</div>
+                        <div class="result-card__hint" id="effectiveRateHint">Actual annualized return considering compounding effect</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="theoreticalMonthlyIncomeLabel">Theoretical Monthly Income</div>
+                        <div class="result-card__value" id="theoreticalMonthlyIncomeValue" aria-live="polite">0</div>
+                        <div class="result-card__hint" id="theoreticalMonthlyIncomeHint">Monthly income if withdrawing interest from final amount</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="averageMonthlyProfitLabel">Avg Monthly Profit</div>
+                        <div class="result-card__value" id="averageMonthlyProfitValue" aria-live="polite">0</div>
+                        <div class="result-card__hint" id="averageMonthlyProfitHint">Average monthly capital growth during investment period</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="averageAnnualProfitLabel">Avg Annual Profit</div>
+                        <div class="result-card__value" id="averageAnnualProfitValue" aria-live="polite">0</div>
+                        <div class="result-card__hint" id="averageAnnualProfitHint">Average annual capital growth during investment period</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section class="milestones-section">
+            <h2 class="section__title">Key Milestones</h2>
+            <div class="milestones-grid">
+                <div class="milestone-card">
+                    <div class="milestone-card__title" id="doubleLabel">Double Investment</div>
+                    <div class="milestone-card__value" id="doubleValue" aria-live="polite">0 years</div>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-card__title" id="tenfoldLabel">Tenfold Investment</div>
+                    <div class="milestone-card__value" id="tenfoldValue" aria-live="polite">0 years</div>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-card__title" id="hundredfoldLabel">Hundredfold Investment</div>
+                    <div class="milestone-card__value" id="hundredfoldValue" aria-live="polite">0 years</div>
+                </div>
+                <div class="milestone-card">
+                    <div class="milestone-card__title" id="targetIncomeLabel">Target Monthly Income</div>
+                    <div class="milestone-card__value" id="targetIncomeValue" aria-live="polite">0 years</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="plan-section">
+            <h2 class="section__title">Monthly Income Plan</h2>
+            <div>
+                <table class="plan-table">
+                    <thead>
+                        <tr class="plan-table__row">
+                            <th class="plan-table__header" id="monthLabel">Month</th>
+                            <th class="plan-table__header" id="cumulativeAmountLabel">Cumulative Amount</th>
+                            <th class="plan-table__header" id="monthlyIncomeLabel">Monthly Income</th>
+                            <th class="plan-table__header" id="monthlyPercentageLabel">% of Initial</th>
+                        </tr>
+                    </thead>
+                    <tbody id="planTableBody">
+                        <!-- Generated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Format number with K/M suffixes for brevity.
+        function formatNumber(num) {
+            if (Math.abs(num) > 999999) {
+                return (num / 1000000).toFixed(2) + 'M';
+            }
+            if (Math.abs(num) > 999) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toFixed(2);
+        }
+
+        // Format a period of days into a human-readable string (e.g., "1 year 2 months 3 days").
+        // This version includes improved pluralization for both English and Russian.
+        function formatTimePeriod(days, lang = 'en') {
+            if (!days || days <= 0) {
+                return lang === 'en' ? 'Never' : 'Никогда';
+            }
+
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30);
+            const remainingDays = Math.round(days - (years * 365) - (months * 30));
+
+            const parts = [];
+
+            if (lang === 'en') {
+                if (years > 0) parts.push(`${years} ${years === 1 ? 'year' : 'years'}`);
+                if (months > 0) parts.push(`${months} ${months === 1 ? 'month' : 'months'}`);
+                if (remainingDays > 0) parts.push(`${remainingDays} ${remainingDays === 1 ? 'day' : 'days'}`);
+            } else { // ru
+                const pluralize = (count, forms) => { // [one, few, many] e.g. ['год', 'года', 'лет']
+                    const n = Math.abs(count) % 100;
+                    const n1 = n % 10;
+                    if (n > 10 && n < 20) return forms[2];
+                    if (n1 > 1 && n1 < 5) return forms[1];
+                    if (n1 === 1) return forms[0];
+                    return forms[2];
+                };
+                if (years > 0) parts.push(`${years} ${pluralize(years, ['год', 'года', 'лет'])}`);
+                if (months > 0) parts.push(`${months} ${pluralize(months, ['месяц', 'месяца', 'месяцев'])}`);
+                if (remainingDays > 0) parts.push(`${remainingDays} ${pluralize(remainingDays, ['день', 'дня', 'дней'])}`);
+            }
+
+            return parts.length > 0 ? (lang === 'en' ? '0 days' : '0 дней');
+        }
+
+        // Calculate compound interest using a daily simulation model.
+        function calculateCompoundInterest(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency) {
+            const annualRate = rate / 100;
+
+            // No compounding - simple interest
+            if (compoundingDays === 0) {
+                const simpleInterest = principal * annualRate * (termDays / 365);
+                let amount = principal + simpleInterest;
+
+                if (additionalFrequency > 0 && additionalAmount > 0) {
+                    const numberOfAdditionalInvestments = Math.floor(termDays / additionalFrequency);
+                    amount += additionalAmount * numberOfAdditionalInvestments;
+                }
+                return amount;
+            }
+
+            // With compounding
+            let amount = principal;
+            const dailyRate = annualRate / 365;
+
+            for (let day = 1; day <= termDays; day++) {
+                if (additionalFrequency > 0 && day % additionalFrequency === 0) {
+                    amount += additionalAmount;
+                }
+                if (day % compoundingDays === 0) {
+                    const periodRate = dailyRate * compoundingDays;
+                    amount *= (1 + periodRate);
+                }
+            }
+            return amount;
+        }
+
+        // Calculate a month-by-month breakdown of the investment growth.
+        function calculateMonthlyPlan(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency) {
+            const annualRate = rate / 100;
+            const dailyRate = annualRate / 365;
+            let amount = principal;
+            const monthlyData = [];
+            let previousMonthAmount = principal;
+
+            for (let month = 1; month <= Math.ceil(termDays / 30); month++) {
+                const startDay = (month - 1) * 30 + 1;
+                const endDay = Math.min(month * 30, termDays);
+
+                for (let day = startDay; day <= endDay; day++) {
+                    if (additionalFrequency > 0 && day % additionalFrequency === 0) {
+                        amount += additionalAmount;
+                    }
+                    if (compoundingDays > 0 && day % compoundingDays === 0) {
+                        const periodRate = dailyRate * compoundingDays;
+                        amount *= (1 + periodRate);
+                    }
+                }
+
+                const monthlyIncome = amount - previousMonthAmount;
+                monthlyData.push({
+                    month: month,
+                    cumulativeAmount: amount,
+                    monthlyIncome: monthlyIncome,
+                    percentageOfInitial: principal > 0 ? (monthlyIncome / principal) * 100 : 0
+                });
+                previousMonthAmount = amount;
+            }
+            return monthlyData;
+        }
+
+        // Calculate the effective annual rate (CAGR).
+        function calculateEffectiveRate(principal, finalAmount, termDays) {
+            if (termDays <= 0 || principal <= 0 || finalAmount <= principal) return 0;
+            const totalGrowthFactor = finalAmount / principal;
+            const effectiveRate = (Math.pow(totalGrowthFactor, 365 / termDays) - 1) * 100;
+            return effectiveRate;
+        }
+
+        // Calculate average monthly and annual profits.
+        function calculateAverageProfits(principal, finalAmount, termDays) {
+            if (termDays <= 0) return { monthly: 0, annual: 0, monthlyPercent: 0, annualPercent: 0 };
+
+            const totalProfit = finalAmount - principal;
+            const years = termDays / 365;
+            const months = years * 12;
+
+            const averageMonthlyProfit = months > 0 ? totalProfit / months : 0;
+            const averageAnnualProfit = years > 0 ? totalProfit / years : 0;
+            const averageMonthlyPercent = principal > 0 && months > 0 ? (totalProfit / principal) * 100 / months : 0;
+            const averageAnnualPercent = principal > 0 && years > 0 ? (totalProfit / principal) * 100 / years : 0;
+
+            return {
+                monthly: averageMonthlyProfit,
+                annual: averageAnnualProfit,
+                monthlyPercent: averageMonthlyPercent,
+                annualPercent: averageAnnualPercent
+            };
+        }
+
+        // Calculate key investment milestones.
+        function calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome) {
+            const annualRate = rate / 100;
+            const dailyRate = annualRate / 365;
+            let amount = principal;
+            let daysToDouble = 0, daysToTenfold = 0, daysToHundredfold = 0, daysToTargetIncome = 0;
+
+            // Limit search to 100 years to prevent infinite loops
+            for (let day = 1; day <= 365 * 100; day++) {
+                if (additionalFrequency > 0 && day % additionalFrequency === 0) amount += additionalAmount;
+
+                if (compoundingDays > 0 && day % compoundingDays === 0) {
+                    amount *= (1 + dailyRate * compoundingDays);
+                } else if (compoundingDays === 0) {
+                    amount += principal * dailyRate; // Simple interest
+                }
+
+                if (daysToDouble === 0 && principal > 0 && amount >= principal * 2) daysToDouble = day;
+                if (daysToTenfold === 0 && principal > 0 && amount >= principal * 10) daysToTenfold = day;
+                if (daysToHundredfold === 0 && principal > 0 && amount >= principal * 100) daysToHundredfold = day;
+                if (daysToTargetIncome === 0 && targetIncome > 0 && (amount * annualRate / 12) >= targetIncome) daysToTargetIncome = day;
+
+                if (daysToDouble && daysToTenfold && daysToHundredfold && (daysToTargetIncome || targetIncome <= 0)) break;
+            }
+
+            return { double: daysToDouble, tenfold: daysToTenfold, hundredfold: daysToHundredfold, targetIncome: daysToTargetIncome };
+        }
+
+        // Translation dictionaries
+        const translations = {
+            en: {
+                title: "Investment Calculator",
+                inputParameters: "Input Parameters",
+                initialAmount: "Initial Investment Amount",
+                initialAmountHint: "The starting amount of your investment. This is the base amount that will earn interest over time.",
+                interestRate: "Annual Interest Rate (%)",
+                interestRateHint: "The annual percentage rate at which your investment will grow. Higher rates mean faster growth.",
+                compounding: "Compounding Period",
+                compoundingHint: "How often interest is added to your principal. More frequent compounding leads to higher returns.",
+                investmentTerm: "Investment Term",
+                investmentTermHint: "The duration of your investment. Longer terms generally lead to higher returns due to compounding.",
+                additionalInvestment: "Additional Investment",
+                additionalInvestmentHint: "Regular additional investments can significantly boost your final amount through dollar-cost averaging.",
+                targetMonthlyIncome: "Target Monthly Income (X)",
+                targetMonthlyIncomeHint: "The monthly income you want to achieve from your investment. This helps plan for financial goals.",
+                calculatedResults: "Calculated Results",
+                finalAmount: "Final Amount",
+                finalAmountHint: "Total amount at the end of investment period including all profits",
+                totalProfit: "Total Profit",
+                totalProfitHint: "Absolute profit and percentage gain over the entire period",
+                effectiveRate: "Effective Rate",
+                effectiveRateHint: "Actual annualized return considering compounding effect",
+                theoreticalMonthlyIncome: "Theoretical Monthly Income",
+                theoreticalMonthlyIncomeHint: "Monthly income if withdrawing interest from final amount",
+                averageMonthlyProfit: "Avg Monthly Profit",
+                averageMonthlyProfitHint: "Average monthly capital growth during investment period",
+                averageAnnualProfit: "Avg Annual Profit",
+                averageAnnualProfitHint: "Average annual capital growth during investment period",
+                keyMilestones: "Key Milestones",
+                doubleInvestment: "Double Investment",
+                tenfoldInvestment: "Tenfold Investment",
+                hundredfoldInvestment: "Hundredfold Investment",
+                targetMonthlyIncomeMilestone: "Target Monthly Income",
+                monthlyIncomePlan: "Monthly Income Plan",
+                month: "Month",
+                cumulativeAmount: "Cumulative Amount",
+                monthlyIncome: "Monthly Income",
+                monthlyPercentage: "% of Initial",
+                noCompounding: "No Compounding",
+                daily: "Daily",
+                monthly: "Monthly",
+                quarterly: "Quarterly",
+                semiAnnually: "Semi-Annually",
+                annually: "Annually",
+                days: "Days",
+                months: "Months",
+                years: "Years",
+                noAdditional: "No Additional",
+                double: "Double",
+                tenfold: "Tenfold",
+                hundredfold: "Hundredfold"
+            },
+            ru: {
+                title: "Калькулятор Инвеcтиций",
+                inputParameters: "Входные Параметры",
+                initialAmount: "Начальная cумма Инвеcтиций",
+                initialAmountHint: "Стартовая cумма вашего вложения. Это базовая cумма, которая будет приноcить проценты co временем.",
+                interestRate: "Годовая Процентная cтавка (%)",
+                interestRateHint: "Годовой процент, по которому будет раcти ваше вложение. Более выcокие cтавки означают более быcтрый роcт.",
+                compounding: "Период Капитализации",
+                compoundingHint: "Как часто проценты добавляютcя к основной cумме. Более чаcтая капитализация приводит к более выcокой доходноcти.",
+                investmentTerm: "Срок Инвеcтиций",
+                investmentTermHint: "Продолжительноcть вашего вложения. Более длительные cроки обычно приводят к более выcокой доходноcти благодаря капитализации.",
+                additionalInvestment: "Дополнительные Вложения",
+                additionalInvestmentHint: "Регулярные дополнительные вложения могут значительно увеличить вашу конечную cумму благодаря уcреднению cтоимоcти.",
+                targetMonthlyIncome: "Целевой Меcячный Доход (X)",
+                targetMonthlyIncomeHint: "Меcячный доход, который вы хотите получить от инвеcтиций. Это помогает планировать финанcовые цели.",
+                calculatedResults: "Вычиcляемые Параметры",
+                finalAmount: "Конечная cумма",
+                finalAmountHint: "общая cумма в конце периода инвестиций, включая вcю прибыль",
+                totalProfit: "Полный Доход",
+                totalProfitHint: "Абсолютная прибыль и процентный доход за веcь период",
+                effectiveRate: "Эффективная cтавка",
+                effectiveRateHint: "Фактичеcкая годовая доходноcть c учетом эффекта капитализации",
+                theoreticalMonthlyIncome: "Теоретичеcкий Меcячный Доход",
+                theoreticalMonthlyIncomeHint: "Меcячный доход при cнятии процентов c финальной cуммы",
+                averageMonthlyProfit: "Средний Меcячный Прироcт",
+                averageMonthlyProfitHint: "Среднемеcячный роcт капитала за период инвеcтиций",
+                averageAnnualProfit: "Средний Годовой Прироcт",
+                averageAnnualProfitHint: "Среднегодовой роcт капитала за период инвеcтиций",
+                keyMilestones: "Ключевые Вехи",
+                doubleInvestment: "Удвоение Вклада",
+                tenfoldInvestment: "Удеcятерение Вклада",
+                hundredfoldInvestment: "Увеличение в 100 раз",
+                targetMonthlyIncomeMilestone: "Целевой Меcячный Доход",
+                monthlyIncomePlan: "Помеcячный План Дохода",
+                month: "Меcяц",
+                cumulativeAmount: "Накопленная cумма",
+                monthlyIncome: "Меcячный Доход",
+                monthlyPercentage: "% от Начальной",
+                noCompounding: "Без Капитализации",
+                daily: "Ежедневно",
+                monthly: "Ежемеcячно",
+                quarterly: "Ежеквартально",
+                semiAnnually: "Полугодовой",
+                annually: "Ежегодно",
+                days: "Дни",
+                months: "Меcяцы",
+                years: "Годы",
+                noAdditional: "Без Дополнительных",
+                double: "Удвоение",
+                tenfold: "Удеcятерение",
+                hundredfold: "Увеличение в 100 раз"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        // DOM Elements
+        const elements = {
+            languageToggle: document.getElementById('languageToggle'),
+            initialAmount: document.getElementById('initialAmount'),
+            interestRate: document.getElementById('interestRate'),
+            compounding: document.getElementById('compounding'),
+            investmentTerm: document.getElementById('investmentTerm'),
+            termUnit: document.getElementById('termUnit'),
+            additionalAmount: document.getElementById('additionalAmount'),
+            additionalFrequency: document.getElementById('additionalFrequency'),
+            targetMonthlyIncome: document.getElementById('targetMonthlyIncome'),
+            finalAmountValue: document.getElementById('finalAmountValue'),
+            totalProfitValue: document.getElementById('totalProfitValue'),
+            effectiveRateValue: document.getElementById('effectiveRateValue'),
+            theoreticalMonthlyIncomeValue: document.getElementById('theoreticalMonthlyIncomeValue'),
+            averageMonthlyProfitValue: document.getElementById('averageMonthlyProfitValue'),
+            averageAnnualProfitValue: document.getElementById('averageAnnualProfitValue'),
+            doubleValue: document.getElementById('doubleValue'),
+            tenfoldValue: document.getElementById('tenfoldValue'),
+            hundredfoldValue: document.getElementById('hundredfoldValue'),
+            targetIncomeValue: document.getElementById('targetIncomeValue'),
+            planTableBody: document.getElementById('planTableBody')
+        };
+
+        // Translation elements mapping
+        const translationElements = {
+            title: document.getElementById('title'),
+            inputParameters: document.querySelector('.input-section .section__title'),
+            initialAmountLabel: document.getElementById('initialAmountLabel'),
+            initialAmountHint: document.getElementById('initialAmountHint'),
+            interestRateLabel: document.getElementById('interestRateLabel'),
+            interestRateHint: document.getElementById('interestRateHint'),
+            compoundingLabel: document.getElementById('compoundingLabel'),
+            compoundingHint: document.getElementById('compoundingHint'),
+            investmentTermLabel: document.getElementById('investmentTermLabel'),
+            investmentTermHint: document.getElementById('investmentTermHint'),
+            additionalInvestmentLabel: document.getElementById('additionalInvestmentLabel'),
+            additionalInvestmentHint: document.getElementById('additionalInvestmentHint'),
+            targetMonthlyIncomeLabel: document.getElementById('targetMonthlyIncomeLabel'),
+            targetMonthlyIncomeHint: document.getElementById('targetMonthlyIncomeHint'),
+            calculatedResults: document.querySelector('.results-section .section__title'),
+            finalAmountLabel: document.querySelector('[id="finalAmountLabel"]'),
+            finalAmountHint: document.querySelector('[id="finalAmountHint"]'),
+            totalProfitLabel: document.querySelector('[id="totalProfitLabel"]'),
+            totalProfitHint: document.querySelector('[id="totalProfitHint"]'),
+            effectiveRateLabel: document.querySelector('[id="effectiveRateLabel"]'),
+            effectiveRateHint: document.querySelector('[id="effectiveRateHint"]'),
+            theoreticalMonthlyIncomeLabel: document.querySelector('[id="theoreticalMonthlyIncomeLabel"]'),
+            theoreticalMonthlyIncomeHint: document.querySelector('[id="theoreticalMonthlyIncomeHint"]'),
+            averageMonthlyProfitLabel: document.querySelector('[id="averageMonthlyProfitLabel"]'),
+            averageMonthlyProfitHint: document.querySelector('[id="averageMonthlyProfitHint"]'),
+            averageAnnualProfitLabel: document.querySelector('[id="averageAnnualProfitLabel"]'),
+            averageAnnualProfitHint: document.querySelector('[id="averageAnnualProfitHint"]'),
+            keyMilestones: document.querySelector('.milestones-section .section__title'),
+            doubleLabel: document.getElementById('doubleLabel'),
+            tenfoldLabel: document.getElementById('tenfoldLabel'),
+            hundredfoldLabel: document.getElementById('hundredfoldLabel'),
+            targetIncomeLabel: document.getElementById('targetIncomeLabel'),
+            monthlyIncomePlan: document.querySelector('.plan-section .section__title'),
+            monthLabel: document.getElementById('monthLabel'),
+            cumulativeAmountLabel: document.getElementById('cumulativeAmountLabel'),
+            monthlyIncomeLabel: document.getElementById('monthlyIncomeLabel'),
+            monthlyPercentageLabel: document.getElementById('monthlyPercentageLabel')
+        };
+
+        // Initialize compounding options
+        function initializeCompoundingOptions() {
+            const compoundingOptions = {
+                en: [
+                    { value: "0", text: "No Compounding" },
+                    { value: "1", text: "Daily" },
+                    { value: "30", text: "Monthly" },
+                    { value: "90", text: "Quarterly" },
+                    { value: "180", text: "Semi-Annually" },
+                    { value: "365", text: "Annually" }
+                ],
+                ru: [
+                    { value: "0", text: "Без Капитализации" },
+                    { value: "1", text: "Ежедневно" },
+                    { value: "30", text: "Ежемеcячно" },
+                    { value: "90", text: "Ежеквартально" },
+                    { value: "180", text: "Полугодовой" },
+                    { value: "365", text: "Ежегодно" }
+                ]
+            };
+
+            const termUnitOptions = {
+                en: [
+                    { value: "1", text: "Days" },
+                    { value: "30", text: "Months" },
+                    { value: "365", text: "Years" }
+                ],
+                ru: [
+                    { value: "1", text: "Дни" },
+                    { value: "30", text: "Меcяцы" },
+                    { value: "365", text: "Годы" }
+                ]
+            };
+
+            const additionalFrequencyOptions = {
+                en: [
+                    { value: "0", text: "No Additional" },
+                    { value: "1", text: "Daily" },
+                    { value: "30", text: "Monthly" },
+                    { value: "90", text: "Quarterly" },
+                    { value: "365", text: "Annually" }
+                ],
+                ru: [
+                    { value: "0", text: "Без Дополнительных" },
+                    { value: "1", text: "Ежедневно" },
+                    { value: "30", text: "Ежемеcячно" },
+                    { value: "90", text: "Ежеквартально" },
+                    { value: "365", text: "Ежегодно" }
+                ]
+            };
+
+            // Clear and populate compounding options
+            elements.compounding.innerHTML = '';
+            compoundingOptions[currentLanguage].forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                if (option.value === "365") opt.selected = true;
+                elements.compounding.appendChild(opt);
+            });
+
+            // Clear and populate term unit options
+            elements.termUnit.innerHTML = '';
+            termUnitOptions[currentLanguage].forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                if (option.value === "365") opt.selected = true;
+                elements.termUnit.appendChild(opt);
+            });
+
+            // Clear and populate additional frequency options
+            elements.additionalFrequency.innerHTML = '';
+            additionalFrequencyOptions[currentLanguage].forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                if (option.value === "30") opt.selected = true;
+                elements.additionalFrequency.appendChild(opt);
+            });
+        }
+
+        // Update calculations
+        function updateCalculations() {
+            const principal = parseFloat(elements.initialAmount.value) || 0;
+            const rate = parseFloat(elements.interestRate.value) || 0;
+            const compoundingDays = parseInt(elements.compounding.value) || 0;
+            const termValue = parseFloat(elements.investmentTerm.value) || 0;
+            const termUnit = parseInt(elements.termUnit.value) || 365;
+            const termDays = termValue * termUnit;
+            const additionalAmount = parseFloat(elements.additionalAmount.value) || 0;
+            const additionalFrequency = parseInt(elements.additionalFrequency.value) || 0;
+            const targetIncome = parseFloat(elements.targetMonthlyIncome.value) || 0;
+
+            // Calculate final amount
+            const finalAmount = calculateCompoundInterest(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
+            const totalProfit = finalAmount - principal;
+            const totalProfitPercentage = principal > 0 ? (totalProfit / principal) * 100 : 0;
+
+            // Calculate effective rate
+            const effectiveRate = (compoundingDays > 0 && principal > 0) ? calculateEffectiveRate(principal, finalAmount, termDays) : rate;
+
+            // Calculate theoretical monthly income (from final amount)
+            const theoreticalMonthlyIncome = termDays > 0 ? (finalAmount * (rate / 100) / 12) : 0;
+
+            // Calculate average profits
+            const averageProfits = calculateAverageProfits(principal, finalAmount, termDays);
+
+            // Update results
+            elements.finalAmountValue.textContent = formatNumber(finalAmount);
+            elements.totalProfitValue.textContent = formatNumber(totalProfit) + ` (${totalProfitPercentage.toFixed(1)}%)`;
+            elements.effectiveRateValue.textContent = effectiveRate.toFixed(2) + '%';
+            elements.theoreticalMonthlyIncomeValue.textContent = formatNumber(theoreticalMonthlyIncome);
+            elements.averageMonthlyProfitValue.textContent = formatNumber(averageProfits.monthly) + ` (${averageProfits.monthlyPercent.toFixed(2)}%)`;
+            elements.averageAnnualProfitValue.textContent = formatNumber(averageProfits.annual) + ` (${averageProfits.annualPercent.toFixed(2)}%)`;
+
+            // Calculate milestones
+            const milestones = calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome);
+            elements.doubleValue.textContent = formatTimePeriod(milestones.double, currentLanguage);
+            elements.tenfoldValue.textContent = formatTimePeriod(milestones.tenfold, currentLanguage);
+            elements.hundredfoldValue.textContent = formatTimePeriod(milestones.hundredfold, currentLanguage);
+            elements.targetIncomeValue.textContent = formatTimePeriod(milestones.targetIncome, currentLanguage);
+
+            // Calculate monthly plan
+            const monthlyPlan = calculateMonthlyPlan(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
+            updateMonthlyPlanTable(monthlyPlan, principal);
+        }
+
+        // Update monthly plan table
+        function updateMonthlyPlanTable(monthlyData, principal) {
+            elements.planTableBody.innerHTML = '';
+            
+            monthlyData.forEach(data => {
+                const row = document.createElement('tr');
+                row.className = 'plan-table__row';
+                row.innerHTML = `
+                    <td class="plan-table__cell">${data.month}</td>
+                    <td class="plan-table__cell plan-table__cell--cumulative">${formatNumber(data.cumulativeAmount)}</td>
+                    <td class="plan-table__cell ${data.monthlyIncome >= 0 ? 'plan-table__cell--positive' : 'plan-table__cell--negative'}">${formatNumber(data.monthlyIncome)}</td>
+                    <td class="plan-table__cell">${data.percentageOfInitial.toFixed(2)}%</td>
+                `;
+                elements.planTableBody.appendChild(row);
+            });
+        }
+
+        // Translate UI
+        function translateUI() {
+            const t = translations[currentLanguage];
+            
+            // Update page language for screen readers
+            document.documentElement.lang = currentLanguage;
+
+            // Update text content
+            translationElements.title.textContent = t.title; // This is already a BEM element: header__title
+            document.querySelector('.input-section .section__title').textContent = t.inputParameters;
+            document.getElementById('initialAmountLabel').textContent = t.initialAmount;
+            document.getElementById('initialAmountHint').textContent = t.initialAmountHint;
+            document.getElementById('interestRateLabel').textContent = t.interestRate;
+            document.getElementById('interestRateHint').textContent = t.interestRateHint;
+            document.getElementById('compoundingLabel').textContent = t.compounding;
+            document.getElementById('compoundingHint').textContent = t.compoundingHint;
+            document.getElementById('investmentTermLabel').textContent = t.investmentTerm;
+            document.getElementById('investmentTermHint').textContent = t.investmentTermHint;
+            document.getElementById('additionalInvestmentLabel').textContent = t.additionalInvestment;
+            document.getElementById('additionalInvestmentHint').textContent = t.additionalInvestmentHint;
+            document.getElementById('targetMonthlyIncomeLabel').textContent = t.targetMonthlyIncome;
+            document.getElementById('targetMonthlyIncomeHint').textContent = t.targetMonthlyIncomeHint;
+            document.querySelector('.results-section .section__title').textContent = t.calculatedResults;
+            document.querySelector('[id="finalAmountLabel"]').textContent = t.finalAmount;
+            document.querySelector('[id="finalAmountHint"]').textContent = t.finalAmountHint;
+            document.querySelector('[id="totalProfitLabel"]').textContent = t.totalProfit;
+            document.querySelector('[id="totalProfitHint"]').textContent = t.totalProfitHint;
+            document.querySelector('[id="effectiveRateLabel"]').textContent = t.effectiveRate;
+            document.querySelector('[id="effectiveRateHint"]').textContent = t.effectiveRateHint;
+            document.querySelector('[id="theoreticalMonthlyIncomeLabel"]').textContent = t.theoreticalMonthlyIncome;
+            document.querySelector('[id="theoreticalMonthlyIncomeHint"]').textContent = t.theoreticalMonthlyIncomeHint;
+            document.querySelector('[id="averageMonthlyProfitLabel"]').textContent = t.averageMonthlyProfit;
+            document.querySelector('[id="averageMonthlyProfitHint"]').textContent = t.averageMonthlyProfitHint;
+            document.querySelector('[id="averageAnnualProfitLabel"]').textContent = t.averageAnnualProfit;
+            document.querySelector('[id="averageAnnualProfitHint"]').textContent = t.averageAnnualProfitHint;
+            document.querySelector('.milestones-section .section__title').textContent = t.keyMilestones;
+            document.getElementById('doubleLabel').textContent = t.doubleInvestment;
+            document.getElementById('tenfoldLabel').textContent = t.tenfoldInvestment;
+            document.getElementById('hundredfoldLabel').textContent = t.hundredfoldInvestment;
+            document.getElementById('targetIncomeLabel').textContent = t.targetMonthlyIncomeMilestone;
+            document.querySelector('.plan-section .section__title').textContent = t.monthlyIncomePlan;
+            document.getElementById('monthLabel').textContent = t.month;
+            document.getElementById('cumulativeAmountLabel').textContent = t.cumulativeAmount;
+            document.getElementById('monthlyIncomeLabel').textContent = t.monthlyIncome;
+            document.getElementById('monthlyPercentageLabel').textContent = t.monthlyPercentage;
+
+            // Update button text
+            elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
+            elements.languageToggle.setAttribute('aria-label', currentLanguage === 'en' ? 'Switch to Russian' : 'Переключить на английский');
+
+            // Reinitialize options
+            initializeCompoundingOptions();
+            
+            // Recalculate values to update language-dependent text (e.g., milestones)
+            updateCalculations();
+        }
+
+        // Event listeners
+        elements.languageToggle.addEventListener('click', () => {
+            currentLanguage = (currentLanguage === 'en') ? 'ru' : 'en';
+            translateUI();
+        });
+
+        // Add event listeners to all input fields
+        Object.values(elements).forEach(element => {
+            if (element?.addEventListener) {
+                element.addEventListener('input', updateCalculations);
+            }
+        });
+
+        // Initialize after DOM is fully loaded to ensure correct element dimensions
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCompoundingOptions();
+            updateCalculations();
+        });
+    </script>
+</body>
+</html>
                     <div class="input-group">
                         <label class="input-group__label" id="initialAmountLabel">Initial Investment Amount</label>
                         <input type="number" class="input-group__field" id="initialAmount" value="10000" min="0">
@@ -726,12 +1439,12 @@
                 title: "Калькулятор Инвеcтиций",
                 inputParameters: "Входные Параметры",
                 initialAmount: "Начальная cумма Инвеcтиций",
-                initialAmountHint: "cтартовая cумма вашего вложения. Это базовая cумма, которая будет приноcить проценты co временем.",
+                initialAmountHint: "Стартовая cумма вашего вложения. Это базовая cумма, которая будет приноcить проценты co временем.",
                 interestRate: "Годовая Процентная cтавка (%)",
                 interestRateHint: "Годовой процент, по которому будет раcти ваше вложение. Более выcокие cтавки означают более быcтрый роcт.",
                 compounding: "Период Капитализации",
-                compoundingHint: "Как чаcто проценты добавляютcя к оcновной cумме. Более чаcтая капитализация приводит к более выcокой доходноcти.",
-                investmentTerm: "cрок Инвеcтиций",
+                compoundingHint: "Как часто проценты добавляютcя к основной cумме. Более чаcтая капитализация приводит к более выcокой доходноcти.",
+                investmentTerm: "Срок Инвеcтиций",
                 investmentTermHint: "Продолжительноcть вашего вложения. Более длительные cроки обычно приводят к более выcокой доходноcти благодаря капитализации.",
                 additionalInvestment: "Дополнительные Вложения",
                 additionalInvestmentHint: "Регулярные дополнительные вложения могут значительно увеличить вашу конечную cумму благодаря уcреднению cтоимоcти.",
@@ -741,15 +1454,15 @@
                 finalAmount: "Конечная cумма",
                 finalAmountHint: "общая cумма в конце периода инвестиций, включая вcю прибыль",
                 totalProfit: "Полный Доход",
-                totalProfitHint: "Абcолютная прибыль и процентный доход за веcь период",
+                totalProfitHint: "Абсолютная прибыль и процентный доход за веcь период",
                 effectiveRate: "Эффективная cтавка",
                 effectiveRateHint: "Фактичеcкая годовая доходноcть c учетом эффекта капитализации",
                 theoreticalMonthlyIncome: "Теоретичеcкий Меcячный Доход",
                 theoreticalMonthlyIncomeHint: "Меcячный доход при cнятии процентов c финальной cуммы",
-                averageMonthlyProfit: "cредний Меcячный Прироcт",
-                averageMonthlyProfitHint: "cреднемеcячный роcт капитала за период инвеcтиций",
-                averageAnnualProfit: "cредний Годовой Прироcт",
-                averageAnnualProfitHint: "cреднегодовой роcт капитала за период инвеcтиций",
+                averageMonthlyProfit: "Средний Меcячный Прироcт",
+                averageMonthlyProfitHint: "Среднемеcячный роcт капитала за период инвеcтиций",
+                averageAnnualProfit: "Средний Годовой Прироcт",
+                averageAnnualProfitHint: "Среднегодовой роcт капитала за период инвеcтиций",
                 keyMilestones: "Ключевые Вехи",
                 doubleInvestment: "Удвоение Вклада",
                 tenfoldInvestment: "Удеcятерение Вклада",
