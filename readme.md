@@ -1,7 +1,8 @@
-```markdown
 # Investment Calculator with Compound Interest
 
 A modern, responsive single-page investment calculator that calculates compound interest with various compounding periods, additional investments, and detailed financial metrics. Built with pure HTML, CSS, and JavaScript - no external dependencies.
+
+![Investment Calculator Screenshot](Screenshot%202025-08-12%20154036.png)
 
 ## 📊 Features
 
@@ -194,4 +195,3 @@ For support, please open an issue on the GitHub repository.
 - Inspired by traditional financial calculators
 - Modern design principles from contemporary web development
 - Mathematical formulas from financial mathematics
-```
