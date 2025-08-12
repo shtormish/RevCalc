@@ -485,7 +485,17 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import {
+            calculateCompoundInterest,
+            calculateMonthlyPlan,
+            calculateEffectiveRate,
+            calculateAverageProfits,
+            calculateMilestones,
+            formatNumber,
+            formatTimePeriod
+        } from './calculator.js';
+
         // Translation dictionaries
         const translations = {
             en: {
@@ -541,55 +551,55 @@
                 hundredfold: "Hundredfold"
             },
             ru: {
-                title: "Калькулятор Инвестиций",
+                title: "Калькулятор Инвеcтиций",
                 inputParameters: "Входные Параметры",
-                initialAmount: "Начальная Сумма Инвестиций",
-                initialAmountHint: "Стартовая сумма вашего вложения. Это базовая сумма, которая будет приносить проценты co временем.",
-                interestRate: "Годовая Процентная Ставка (%)",
-                interestRateHint: "Годовой процент, по которому будет расти ваше вложение. Более высокие ставки означают более быстрый рост.",
+                initialAmount: "Начальная cумма Инвеcтиций",
+                initialAmountHint: "cтартовая cумма вашего вложения. Это базовая cумма, которая будет приноcить проценты co временем.",
+                interestRate: "Годовая Процентная cтавка (%)",
+                interestRateHint: "Годовой процент, по которому будет раcти ваше вложение. Более выcокие cтавки означают более быcтрый роcт.",
                 compounding: "Период Капитализации",
-                compoundingHint: "Как часто проценты добавляются к основной сумме. Более частая капитализация приводит к более высокой доходности.",
-                investmentTerm: "Срок Инвестиций",
-                investmentTermHint: "Продолжительность вашего вложения. Более длительные сроки обычно приводят к более высокой доходности благодаря капитализации.",
+                compoundingHint: "Как чаcто проценты добавляютcя к оcновной cумме. Более чаcтая капитализация приводит к более выcокой доходноcти.",
+                investmentTerm: "cрок Инвеcтиций",
+                investmentTermHint: "Продолжительноcть вашего вложения. Более длительные cроки обычно приводят к более выcокой доходноcти благодаря капитализации.",
                 additionalInvestment: "Дополнительные Вложения",
-                additionalInvestmentHint: "Регулярные дополнительные вложения могут значительно увеличить вашу конечную сумму благодаря усреднению стоимости.",
-                targetMonthlyIncome: "Целевой Месячный Доход (X)",
-                targetMonthlyIncomeHint: "Месячный доход, который вы хотите получить от инвестиций. Это помогает планировать финансовые цели.",
-                calculatedResults: "Вычисляемые Параметры",
-                finalAmount: "Конечная Сумма",
-                finalAmountHint: "Общая сумма в конце периода инвестиций, включая всю прибыль",
+                additionalInvestmentHint: "Регулярные дополнительные вложения могут значительно увеличить вашу конечную cумму благодаря уcреднению cтоимоcти.",
+                targetMonthlyIncome: "Целевой Меcячный Доход (X)",
+                targetMonthlyIncomeHint: "Меcячный доход, который вы хотите получить от инвеcтиций. Это помогает планировать финанcовые цели.",
+                calculatedResults: "Вычиcляемые Параметры",
+                finalAmount: "Конечная cумма",
+                finalAmountHint: "общая cумма в конце периода инвестиций, включая вcю прибыль",
                 totalProfit: "Полный Доход",
-                totalProfitHint: "Абсолютная прибыль и процентный доход за весь период",
-                effectiveRate: "Эффективная Ставка",
-                effectiveRateHint: "Фактическая годовая доходность с учетом эффекта капитализации",
-                theoreticalMonthlyIncome: "Теоретический Месячный Доход",
-                theoreticalMonthlyIncomeHint: "Месячный доход при снятии процентов с финальной суммы",
-                averageMonthlyProfit: "Средний Месячный Прирост",
-                averageMonthlyProfitHint: "Среднемесячный рост капитала за период инвестиций",
-                averageAnnualProfit: "Средний Годовой Прирост",
-                averageAnnualProfitHint: "Среднегодовой рост капитала за период инвестиций",
+                totalProfitHint: "Абcолютная прибыль и процентный доход за веcь период",
+                effectiveRate: "Эффективная cтавка",
+                effectiveRateHint: "Фактичеcкая годовая доходноcть c учетом эффекта капитализации",
+                theoreticalMonthlyIncome: "Теоретичеcкий Меcячный Доход",
+                theoreticalMonthlyIncomeHint: "Меcячный доход при cнятии процентов c финальной cуммы",
+                averageMonthlyProfit: "cредний Меcячный Прироcт",
+                averageMonthlyProfitHint: "cреднемеcячный роcт капитала за период инвеcтиций",
+                averageAnnualProfit: "cредний Годовой Прироcт",
+                averageAnnualProfitHint: "cреднегодовой роcт капитала за период инвеcтиций",
                 keyMilestones: "Ключевые Вехи",
                 doubleInvestment: "Удвоение Вклада",
-                tenfoldInvestment: "Удесятерение Вклада",
+                tenfoldInvestment: "Удеcятерение Вклада",
                 hundredfoldInvestment: "Увеличение в 100 раз",
-                targetMonthlyIncomeMilestone: "Целевой Месячный Доход",
-                monthlyIncomePlan: "Помесячный План Дохода",
-                month: "Месяц",
-                cumulativeAmount: "Накопленная Сумма",
-                monthlyIncome: "Месячный Доход",
+                targetMonthlyIncomeMilestone: "Целевой Меcячный Доход",
+                monthlyIncomePlan: "Помеcячный План Дохода",
+                month: "Меcяц",
+                cumulativeAmount: "Накопленная cумма",
+                monthlyIncome: "Меcячный Доход",
                 monthlyPercentage: "% от Начальной",
                 noCompounding: "Без Капитализации",
                 daily: "Ежедневно",
-                monthly: "Ежемесячно",
+                monthly: "Ежемеcячно",
                 quarterly: "Ежеквартально",
                 semiAnnually: "Полугодовой",
                 annually: "Ежегодно",
                 days: "Дни",
-                months: "Месяцы",
+                months: "Меcяцы",
                 years: "Годы",
                 noAdditional: "Без Дополнительных",
                 double: "Удвоение",
-                tenfold: "Удесятерение",
+                tenfold: "Удеcятерение",
                 hundredfold: "Увеличение в 100 раз"
             }
         };
@@ -675,7 +685,7 @@
                 ru: [
                     { value: "0", text: "Без Капитализации" },
                     { value: "1", text: "Ежедневно" },
-                    { value: "30", text: "Ежемесячно" },
+                    { value: "30", text: "Ежемеcячно" },
                     { value: "90", text: "Ежеквартально" },
                     { value: "180", text: "Полугодовой" },
                     { value: "365", text: "Ежегодно" }
@@ -690,7 +700,7 @@
                 ],
                 ru: [
                     { value: "1", text: "Дни" },
-                    { value: "30", text: "Месяцы" },
+                    { value: "30", text: "Меcяцы" },
                     { value: "365", text: "Годы" }
                 ]
             };
@@ -706,7 +716,7 @@
                 ru: [
                     { value: "0", text: "Без Дополнительных" },
                     { value: "1", text: "Ежедневно" },
-                    { value: "30", text: "Ежемесячно" },
+                    { value: "30", text: "Ежемеcячно" },
                     { value: "90", text: "Ежеквартально" },
                     { value: "365", text: "Ежегодно" }
                 ]
@@ -743,216 +753,6 @@
             });
         }
 
-        // Format number with commas
-        function formatNumber(num) {
-            return Math.abs(num) > 999999 
-                ? (num / 1000000).toFixed(2) + 'M' 
-                : Math.abs(num) > 999 
-                ? (num / 1000).toFixed(1) + 'K' 
-                : num.toFixed(2);
-        }
-
-        // Format time period
-        function formatTimePeriod(days) {
-            const years = Math.floor(days / 365);
-            const remainingDays = days % 365;
-            const months = Math.floor(remainingDays / 30);
-            const finalDays = remainingDays % 30;
-
-            let result = '';
-            if (years > 0) {
-                result += years + (currentLanguage === 'en' ? ' years ' : ' лет ');
-            }
-            if (months > 0) {
-                result += months + (currentLanguage === 'en' ? ' months ' : ' месяцев ');
-            }
-            if (finalDays > 0 || result === '') {
-                result += finalDays + (currentLanguage === 'en' ? ' days' : ' дней');
-            }
-            return result.trim();
-        }
-
-        // Calculate compound interest with correct compounding logic
-        function calculateCompoundInterest(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency) {
-            const annualRate = rate / 100;
-            
-            // No compounding - simple interest
-            if (compoundingDays === 0) {
-                const simpleInterest = principal * annualRate * (termDays / 365);
-                let amount = principal + simpleInterest;
-                
-                // Add additional investments
-                if (additionalFrequency > 0 && additionalAmount > 0) {
-                    const numberOfAdditionalInvestments = Math.floor(termDays / additionalFrequency);
-                    amount += additionalAmount * numberOfAdditionalInvestments;
-                }
-                
-                return amount;
-            }
-            
-            // With compounding
-            let amount = principal;
-            const dailyRate = annualRate / 365;
-            
-            for (let day = 1; day <= termDays; day++) {
-                // Add additional investment if applicable
-                if (additionalFrequency > 0 && day % additionalFrequency === 0) {
-                    amount += additionalAmount;
-                }
-                
-                // Apply compounding
-                if (day % compoundingDays === 0) {
-                    const periodRate = dailyRate * compoundingDays;
-                    amount *= (1 + periodRate);
-                }
-            }
-            
-            return amount;
-        }
-
-        // Calculate monthly plan
-        function calculateMonthlyPlan(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency) {
-            const annualRate = rate / 100;
-            const dailyRate = annualRate / 365;
-            let amount = principal;
-            const monthlyData = [];
-            let previousMonthAmount = principal;
-
-            for (let month = 1; month <= Math.ceil(termDays / 30); month++) {
-                const daysInMonth = Math.min(30, termDays - (month - 1) * 30);
-                
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayIndex = (month - 1) * 30 + day;
-                    if (dayIndex > termDays) break;
-
-                    // Add additional investment if applicable
-                    if (additionalFrequency > 0 && dayIndex % additionalFrequency === 0) {
-                        amount += additionalAmount;
-                    }
-
-                    // Apply compounding
-                    if (compoundingDays > 0 && dayIndex % compoundingDays === 0) {
-                        const periodRate = dailyRate * compoundingDays;
-                        amount *= (1 + periodRate);
-                    }
-                }
-
-                const monthlyIncome = amount - previousMonthAmount;
-                monthlyData.push({
-                    month: month,
-                    cumulativeAmount: amount,
-                    monthlyIncome: monthlyIncome,
-                    percentageOfInitial: principal > 0 ? (monthlyIncome / principal) * 100 : 0
-                });
-
-                previousMonthAmount = amount;
-            }
-
-            return monthlyData;
-        }
-
-        // Calculate effective annual rate correctly - average effective rate over the entire investment term
-        function calculateEffectiveRate(principal, finalAmount, termDays, compoundingDays, nominalRate) {
-            if (termDays <= 0 || principal <= 0) return 0;
-            
-            // For no compounding, effective rate equals nominal rate
-            if (compoundingDays === 0) {
-                return nominalRate;
-            }
-            
-            // Calculate the actual growth factor over the entire term
-            const totalGrowthFactor = finalAmount / principal;
-            
-            // Calculate the effective annual rate that would produce this growth over the term
-            // This is the CAGR (Compound Annual Growth Rate) formula
-            // (1 + EAR)^(termDays/365) = totalGrowthFactor
-            // EAR = totalGrowthFactor^(365/termDays) - 1
-            const effectiveRate = (Math.pow(totalGrowthFactor, 365 / termDays) - 1) * 100;
-            
-            return effectiveRate;
-        }
-
-        // Calculate average monthly and annual profits
-        function calculateAverageProfits(principal, finalAmount, termDays) {
-            if (termDays <= 0 || principal <= 0) return { monthly: 0, annual: 0, monthlyPercent: 0, annualPercent: 0 };
-            
-            const totalProfit = finalAmount - principal;
-            
-            // Average monthly profit in amount
-            const months = termDays / 30;
-            const averageMonthlyProfit = months > 0 ? totalProfit / months : 0;
-            
-            // Average annual profit in amount
-            const years = termDays / 365;
-            const averageAnnualProfit = years > 0 ? totalProfit / years : 0;
-            
-            // Average monthly profit in percentage
-            const averageMonthlyPercent = months > 0 ? (totalProfit / principal) * 100 / months : 0;
-            
-            // Average annual profit in percentage
-            const averageAnnualPercent = years > 0 ? (totalProfit / principal) * 100 / years : 0;
-            
-            return {
-                monthly: averageMonthlyProfit,
-                annual: averageAnnualProfit,
-                monthlyPercent: averageMonthlyPercent,
-                annualPercent: averageAnnualPercent
-            };
-        }
-
-        // Calculate milestones
-        function calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome) {
-            const annualRate = rate / 100;
-            const dailyRate = annualRate / 365;
-            let amount = principal;
-            let daysToDouble = 0;
-            let daysToTenfold = 0;
-            let daysToHundredfold = 0;
-            let daysToTargetIncome = 0;
-
-            // Find doubling time
-            amount = principal;
-            for (let day = 1; day <= 365 * 100; day++) {
-                // Add additional investment if applicable
-                if (additionalFrequency > 0 && day % additionalFrequency === 0) {
-                    amount += additionalAmount;
-                }
-
-                // Apply compounding
-                if (compoundingDays > 0 && day % compoundingDays === 0) {
-                    const periodRate = dailyRate * compoundingDays;
-                    amount *= (1 + periodRate);
-                } else if (compoundingDays === 0) {
-                    // Simple interest for no compounding
-                    amount += principal * dailyRate;
-                }
-
-                if (daysToDouble === 0 && amount >= principal * 2) {
-                    daysToDouble = day;
-                }
-                if (daysToTenfold === 0 && amount >= principal * 10) {
-                    daysToTenfold = day;
-                }
-                if (daysToHundredfold === 0 && amount >= principal * 100) {
-                    daysToHundredfold = day;
-                }
-                if (daysToTargetIncome === 0 && (amount * annualRate / 12) >= targetIncome) {
-                    daysToTargetIncome = day;
-                }
-
-                if (daysToDouble > 0 && daysToTenfold > 0 && daysToHundredfold > 0 && daysToTargetIncome > 0) {
-                    break;
-                }
-            }
-
-            return {
-                double: daysToDouble,
-                tenfold: daysToTenfold,
-                hundredfold: daysToHundredfold,
-                targetIncome: daysToTargetIncome
-            };
-        }
-
         // Update calculations
         function updateCalculations() {
             const principal = parseFloat(elements.initialAmount.value) || 0;
@@ -971,7 +771,7 @@
             const totalProfitPercentage = principal > 0 ? (totalProfit / principal) * 100 : 0;
 
             // Calculate effective rate
-            const effectiveRate = calculateEffectiveRate(principal, finalAmount, termDays, compoundingDays, rate);
+            const effectiveRate = compoundingDays > 0 ? calculateEffectiveRate(principal, finalAmount, termDays) : rate;
 
             // Calculate theoretical monthly income (from final amount)
             const theoreticalMonthlyIncome = termDays > 0 ? (finalAmount * (rate / 100) / 12) : 0;
@@ -989,10 +789,10 @@
 
             // Calculate milestones
             const milestones = calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome);
-            elements.doubleValue.textContent = milestones.double > 0 ? formatTimePeriod(milestones.double) : (currentLanguage === 'en' ? 'Never' : 'Никогда');
-            elements.tenfoldValue.textContent = milestones.tenfold > 0 ? formatTimePeriod(milestones.tenfold) : (currentLanguage === 'en' ? 'Never' : 'Никогда');
-            elements.hundredfoldValue.textContent = milestones.hundredfold > 0 ? formatTimePeriod(milestones.hundredfold) : (currentLanguage === 'en' ? 'Never' : 'Никогда');
-            elements.targetIncomeValue.textContent = milestones.targetIncome > 0 ? formatTimePeriod(milestones.targetIncome) : (currentLanguage === 'en' ? 'Never' : 'Никогда');
+            elements.doubleValue.textContent = formatTimePeriod(milestones.double, currentLanguage);
+            elements.tenfoldValue.textContent = formatTimePeriod(milestones.tenfold, currentLanguage);
+            elements.hundredfoldValue.textContent = formatTimePeriod(milestones.hundredfold, currentLanguage);
+            elements.targetIncomeValue.textContent = formatTimePeriod(milestones.targetIncome, currentLanguage);
 
             // Calculate monthly plan
             const monthlyPlan = calculateMonthlyPlan(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
