@@ -2,6 +2,10 @@
 
 A modern, responsive single-page investment calculator that calculates compound interest with various compounding periods, additional investments, and detailed financial metrics. Built with pure HTML, CSS, and JavaScript - no external dependencies.
 
+<div align="center">
+**[🚀 Live Demo](https://shtormish.github.io/RevCalc/)**
+</div>
+
 ![Investment Calculator Screenshot](Screenshot%202025-08-12%20154036.png)
 
 ## 📊 Features
