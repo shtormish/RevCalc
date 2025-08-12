@@ -56,24 +56,71 @@ The calculator is fully responsive and uses a flexible single-column layout to a
 
 ## 🧮 Calculation Details
 
-### Compound Interest Formula
-The calculator uses precise daily compounding calculations:
-```
-For each day:
-  If additional investment day: Add investment
-  If compounding day: Apply interest
-  Amount = Amount × (1 + daily_rate × compounding_days)
-```
+The calculator's internal engine performs a granular day-by-day simulation for higher accuracy, especially with complex contribution schedules. This iterative approach is reflected in the monthly plan. However, the main calculated metrics are based on the following standard financial formulas.
 
-### Effective Annual Rate
-Calculated using the CAGR (Compound Annual Growth Rate) formula:
-```
-EAR = (Final_Amount/Initial_Amount)^(365/term_days) - 1
-```
+### Calculation Formulas
 
-### Average Profits
-- **Monthly Profit**: Total profit ÷ number of months
-- **Annual Profit**: Total profit ÷ number of years
+#### 1. Final Amount (Future Value)
+The final amount is the future value of the initial principal combined with the future value of a series of regular contributions (an annuity).
+
+$$ A = P \left(1 + \frac{r}{n}\right)^{nt} + C \times \frac{\left(1 + \frac{r}{n}\right)^{nt} - 1}{\frac{r}{n}} $$
+
+-   $A$: The future value of the investment.
+-   $P$: The initial principal amount.
+-   $C$: The periodic contribution amount.
+-   $r$: The nominal annual interest rate (as a decimal).
+-   $n$: The number of times that interest is compounded per year.
+-   $t$: The number of years the money is invested for.
+
+> **Note:** This formula is a standard financial model. The calculator's day-by-day simulation may yield slightly different results depending on the timing of contributions relative to compounding dates.
+
+*Source: [Investopedia: Compound Interest](https://www.investopedia.com/terms/c/compoundinterest.asp)*
+
+#### 2. Total Profit
+Total profit is the final amount minus the initial principal. Note that in this calculator's implementation, this value also includes the sum of all additional contributions made over the term.
+
+$$ \Pi_{total} = A - P $$
+
+-   $\Pi_{total}$: Total profit.
+-   $A$: Final amount.
+-   $P$: Initial principal.
+
+#### 3. Effective Annual Rate (CAGR)
+The Effective Annual Rate is calculated using the Compound Annual Growth Rate (CAGR) formula, which measures the mean annual growth rate of an investment over a specified period of time longer than one year.
+
+$$ R_{eff} = \left(\frac{A}{P}\right)^{\frac{1}{t}} - 1 $$
+
+-   $R_{eff}$: The Effective Annual Rate.
+-   $A$: The final amount (ending value).
+-   $P$: The initial principal (beginning value).
+-   $t$: The total number of years.
+
+> **Note:** This standard CAGR formula is most accurate for lump-sum investments without intermediate contributions. The calculator uses this as an estimate of the effective rate.
+
+*Source: [Investopedia: CAGR](https://www.investopedia.com/terms/c/cagr.asp)*
+
+#### 4. Theoretical Monthly Income
+This is a simple projection of the monthly income you could generate if you were to withdraw only the interest earned on the final accumulated amount, based on the nominal annual rate.
+
+$$ I_{monthly} = A \times \frac{r}{12} $$
+
+-   $I_{monthly}$: The theoretical monthly income.
+-   $A$: The final amount.
+-   $r$: The nominal annual interest rate (as a decimal).
+
+#### 5. Average Annual and Monthly Profit
+These metrics show the average profit generated per year or per month over the entire investment term.
+
+**Average Annual Profit:**
+$$ \bar{\Pi}_{annual} = \frac{A - P}{t} $$
+
+**Average Monthly Profit:**
+$$ \bar{\Pi}_{monthly} = \frac{A - P}{t \times 12} $$
+
+-   $\bar{\Pi}$: The average profit (annual or monthly).
+-   $A$: The final amount.
+-   $P$: The initial principal.
+-   $t$: The total number of years.
 
 ## 🌍 Internationalization
 
