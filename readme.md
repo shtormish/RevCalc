@@ -3,10 +3,22 @@
 A modern, responsive single-page investment calculator that calculates compound interest with various compounding periods, additional investments, and detailed financial metrics. Built with pure HTML, CSS, and JavaScript - no external dependencies.
 
 <div align="center">
-**[🚀 Live Demo](https://shtormish.github.io/RevCalc/)**
+  <a href="https://shtormish.github.io/RevCalc/"><strong>🚀 Live Demo</strong></a>
 </div>
 
 ![Investment Calculator Screenshot](Screenshot%202025-08-12%20154036.png)
+
+## Table of Contents
+* [Features](#-features)
+* [Quick Start](#-quick-start)
+* [Responsive Design](#-responsive-design)
+* [Calculation Details](#-calculation-details)
+* [Internationalization](#-internationalization)
+* [Technical Implementation](#-technical-implementation)
+* [Customization](#-customization)
+* [Privacy & Security](#-privacy--security)
+* [Disclaimer](#-disclaimer)
+* [License](#-license)
 
 ## 📊 Features
 
@@ -40,10 +52,7 @@ Simply open `index.html` in any modern web browser. No installation or build pro
 
 ## 📱 Responsive Design
 
-The calculator is fully responsive and adapts to different screen sizes:
-- **Desktop**: Two-column layout with detailed information
-- **Tablet**: Two-column layout with adjusted spacing
-- **Mobile**: Single-column layout with optimized touch targets
+The calculator is fully responsive and uses a flexible single-column layout to adapt to all screen sizes, from mobile phones to desktops.
 
 ## 🧮 Calculation Details
 
@@ -74,20 +83,6 @@ The calculator supports two languages:
 
 Click the language toggle button in the header to switch between languages.
 
-## 🎨 Design Features
-
-### Visual Elements
-- **Gradient Backgrounds**: Soft blue gradient background
-- **Card-based Layout**: Clean, organized information presentation
-- **Hover Effects**: Interactive elements with subtle animations
-- **Color-coded Values**: Positive/negative values with color indicators
-- **Custom Scrollbars**: Styled scrollbars for better UX
-
-### Typography
-- **Modern Font Stack**: System UI fonts for optimal readability
-- **Clear Hierarchy**: Distinct font sizes and weights for information hierarchy
-- **Responsive Text**: Adapts to different screen sizes
-
 ## 🔧 Technical Implementation
 
 ### Architecture
@@ -100,23 +95,6 @@ Click the language toggle button in the header to switch between languages.
 - **Modern Browsers**: Chrome, Firefox, Safari, Edge
 - **Mobile Browsers**: iOS Safari, Chrome for Android
 - **No Polyfills Required**: Uses standard ES6+ JavaScript
-
-## 📈 Use Cases
-
-### Personal Finance
-- **Retirement Planning**: Calculate long-term investment growth
-- **Savings Goals**: Plan for specific financial targets
-- **Investment Comparison**: Compare different investment options
-
-### Educational
-- **Financial Literacy**: Learn about compound interest effects
-- **Math Education**: Real-world application of exponential growth
-- **Economic Concepts**: Understand time value of money
-
-### Business
-- **Project Valuation**: Calculate ROI for business investments
-- **Loan Analysis**: Understand compounding debt effects
-- **Financial Planning**: Corporate savings and investment planning
 
 ## 🛠️ Customization
 
@@ -141,20 +119,6 @@ Modify CSS variables in the `:root` selector to change the color scheme:
 - Spacing can be adjusted with padding/margin properties
 - Breakpoints are defined in media queries
 
-## 📊 Data Visualization
-
-### Monthly Income Plan
-- **Scrollable Table**: Detailed month-by-month breakdown
-- **Cumulative Amounts**: Running totals over time
-- **Monthly Income**: Period-specific income calculations
-- **Percentage Growth**: Relative growth indicators
-
-### Milestone Tracking
-- **Doubling Time**: Time to double initial investment
-- **Tenfold Growth**: Time to increase investment by 10x
-- **Hundredfold Growth**: Time to increase investment by 100x
-- **Target Income**: When monthly income reaches specified target
-
 ## 🔒 Privacy & Security
 
 ### Client-side Processing
@@ -168,34 +132,10 @@ Modify CSS variables in the `:root` selector to change the color scheme:
 - **Error Handling**: Graceful handling of edge cases
 - **No Storage**: No cookies or local storage usage
 
-## 🐛 Known Limitations
+## ⚖️ Disclaimer
 
-### Calculation Precision
-- **Floating Point Arithmetic**: May have minor precision issues with very large numbers
-- **Rounding**: Display values are rounded for readability
-
-### Browser Compatibility
-- **Legacy Browsers**: May not work in very old browsers
-- **JavaScript Required**: Application requires JavaScript enabled
+This calculator is provided for informational and educational purposes only. It is not intended to be financial advice. The results are based on the data you provide and may not reflect actual investment returns. Always consult with a qualified financial professional before making any investment decisions.
 
 ## 📄 License
 
 This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📞 Support
-
-For support, please open an issue on the GitHub repository.
-
-## 🙏 Acknowledgments
-
-- Inspired by traditional financial calculators
-- Modern design principles from contemporary web development
-- Mathematical formulas from financial mathematics

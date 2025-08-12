@@ -50,7 +50,7 @@
             box-shadow: var(--shadow);
         }
 
-        .header h1 {
+        .header__title {
             font-size: 1.75rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -59,7 +59,20 @@
             background-clip: text;
         }
 
-        .language-toggle {
+        .header__actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .header__badges {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header__button {
             background: var(--primary);
             color: white;
             border: none;
@@ -71,7 +84,7 @@
             box-shadow: var(--shadow);
         }
 
-        .language-toggle:hover {
+        .header__button:hover {
             background: var(--primary-dark);
             transform: translateY(-1px);
         }
@@ -90,7 +103,7 @@
             box-shadow: var(--shadow);
         }
 
-        .section-title {
+        .section__title {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 20px;
@@ -106,25 +119,25 @@
             gap: 15px 20px;
         }
 
-        .input-group {
+        .input-group { /* This can remain as a block itself */
             margin-bottom: 0;
         }
 
-        .input-label {
+        .input-group__label {
             display: block;
             margin-bottom: 6px;
             font-weight: 500;
             font-size: 0.95rem;
         }
 
-        .input-hint {
+        .input-group__hint {
             font-size: 0.8rem;
             color: var(--text-secondary);
             margin-top: 4px;
             line-height: 1.4;
         }
 
-        .input-field {
+        .input-group__field {
             width: 100%;
             padding: 10px 14px;
             border: 2px solid var(--border);
@@ -134,13 +147,13 @@
             background: var(--secondary);
         }
 
-        .input-field:focus {
+        .input-group__field:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .input-row {
+        .input-group__row {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 15px;
@@ -165,20 +178,20 @@
             transform: translateY(-2px);
         }
 
-        .result-value {
+        .result-card__value {
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--primary);
             margin: 8px 0;
         }
 
-        .result-label {
+        .result-card__label {
             font-size: 0.85rem;
             color: var(--text-secondary);
             line-height: 1.3;
         }
 
-        .result-hint {
+        .result-card__hint {
             font-size: 0.7rem;
             color: var(--text-secondary);
             margin-top: 4px;
@@ -206,13 +219,13 @@
             border-left: 4px solid var(--primary);
         }
 
-        .milestone-title {
+        .milestone-card__title {
             font-weight: 600;
             margin-bottom: 10px;
             color: var(--primary);
         }
 
-        .milestone-value {
+        .milestone-card__value {
             font-size: 1.2rem;
             font-weight: 700;
         }
@@ -230,7 +243,7 @@
             margin-top: 20px;
         }
 
-        .plan-table th {
+        .plan-table__header {
             background: var(--secondary);
             padding: 12px 16px;
             text-align: left;
@@ -238,24 +251,24 @@
             border-bottom: 2px solid var(--border);
         }
 
-        .plan-table td {
+        .plan-table__cell {
             padding: 12px 16px;
             border-bottom: 1px solid var(--border);
         }
 
-        .plan-table tr:hover {
+        .plan-table__row:hover {
             background: var(--secondary);
         }
 
-        .cumulative {
+        .plan-table__cell--cumulative {
             font-weight: 600;
         }
 
-        .positive {
+        .plan-table__cell--positive {
             color: var(--success);
         }
 
-        .negative {
+        .plan-table__cell--negative {
             color: var(--danger);
         }
 
@@ -267,7 +280,7 @@
                 text-align: center;
             }
 
-            .input-row {
+            .input-group__row {
                 grid-template-columns: 1fr;
             }
 
@@ -328,29 +341,39 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Investment Calculator</h1>
-            <button class="language-toggle" id="languageToggle">RU</button>
+            <h1 class="header__title" id="title">Investment Calculator</h1>
+            <div class="header__actions">
+                <div class="header__badges">
+                    <a href="https://github.com/shtormish/RevCalc/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.shields.io/github/stars/shtormish/RevCalc?style=social" alt="GitHub Stars">
+                    </a>
+                    <a href="https://github.com/shtormish/RevCalc/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.shields.io/github/license/shtormish/RevCalc" alt="License: MIT">
+                    </a>
+                </div>
+                <button class="header__button" id="languageToggle">RU</button>
+            </div>
         </div>
 
         <div class="calculator">
             <div class="input-section">
-                <h2 class="section-title">Input Parameters</h2>
+                <h2 class="section__title">Input Parameters</h2>
                 <div class="input-grid">
                     <div class="input-group">
-                        <label class="input-label" id="initialAmountLabel">Initial Investment Amount</label>
-                        <input type="number" class="input-field" id="initialAmount" value="10000" min="0">
-                        <div class="input-hint" id="initialAmountHint">The starting amount of your investment. This is the base amount that will earn interest over time.</div>
+                        <label class="input-group__label" id="initialAmountLabel">Initial Investment Amount</label>
+                        <input type="number" class="input-group__field" id="initialAmount" value="10000" min="0">
+                        <div class="input-group__hint" id="initialAmountHint">The starting amount of your investment. This is the base amount that will earn interest over time.</div>
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label" id="interestRateLabel">Annual Interest Rate (%)</label>
-                        <input type="number" class="input-field" id="interestRate" value="8" min="0" max="100" step="0.1">
-                        <div class="input-hint" id="interestRateHint">The annual percentage rate at which your investment will grow. Higher rates mean faster growth.</div>
+                        <label class="input-group__label" id="interestRateLabel">Annual Interest Rate (%)</label>
+                        <input type="number" class="input-group__field" id="interestRate" value="8" min="0" max="100" step="0.1">
+                        <div class="input-group__hint" id="interestRateHint">The annual percentage rate at which your investment will grow. Higher rates mean faster growth.</div>
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label" id="compoundingLabel">Compounding Period</label>
-                        <select class="input-field" id="compounding">
+                        <label class="input-group__label" id="compoundingLabel">Compounding Period</label>
+                        <select class="input-group__field" id="compounding">
                             <option value="0">No Compounding</option>
                             <option value="1">Daily</option>
                             <option value="30">Monthly</option>
@@ -358,27 +381,27 @@
                             <option value="180">Semi-Annually</option>
                             <option value="365" selected>Annually</option>
                         </select>
-                        <div class="input-hint" id="compoundingHint">How often interest is added to your principal. More frequent compounding leads to higher returns.</div>
+                        <div class="input-group__hint" id="compoundingHint">How often interest is added to your principal. More frequent compounding leads to higher returns.</div>
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label" id="investmentTermLabel">Investment Term</label>
-                        <div class="input-row">
-                            <input type="number" class="input-field" id="investmentTerm" value="10" min="0">
-                            <select class="input-field" id="termUnit">
+                        <label class="input-group__label" id="investmentTermLabel">Investment Term</label>
+                        <div class="input-group__row">
+                            <input type="number" class="input-group__field" id="investmentTerm" value="10" min="0">
+                            <select class="input-group__field" id="termUnit">
                                 <option value="1">Days</option>
                                 <option value="30">Months</option>
                                 <option value="365" selected>Years</option>
                             </select>
                         </div>
-                        <div class="input-hint" id="investmentTermHint">The duration of your investment. Longer terms generally lead to higher returns due to compounding.</div>
+                        <div class="input-group__hint" id="investmentTermHint">The duration of your investment. Longer terms generally lead to higher returns due to compounding.</div>
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label" id="additionalInvestmentLabel">Additional Investment</label>
-                        <div class="input-row">
-                            <input type="number" class="input-field" id="additionalAmount" value="0" min="0">
-                            <select class="input-field" id="additionalFrequency">
+                        <label class="input-group__label" id="additionalInvestmentLabel">Additional Investment</label>
+                        <div class="input-group__row">
+                            <input type="number" class="input-group__field" id="additionalAmount" value="0" min="0">
+                            <select class="input-group__field" id="additionalFrequency">
                                 <option value="0">No Additional</option>
                                 <option value="1">Daily</option>
                                 <option value="30" selected>Monthly</option>
@@ -386,86 +409,86 @@
                                 <option value="365">Annually</option>
                             </select>
                         </div>
-                        <div class="input-hint" id="additionalInvestmentHint">Regular additional investments can significantly boost your final amount through dollar-cost averaging.</div>
+                        <div class="input-group__hint" id="additionalInvestmentHint">Regular additional investments can significantly boost your final amount through dollar-cost averaging.</div>
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label" id="targetMonthlyIncomeLabel">Target Monthly Income (X)</label>
-                        <input type="number" class="input-field" id="targetMonthlyIncome" value="1000" min="0">
-                        <div class="input-hint" id="targetMonthlyIncomeHint">The monthly income you want to achieve from your investment. This helps plan for financial goals.</div>
+                        <label class="input-group__label" id="targetMonthlyIncomeLabel">Target Monthly Income (X)</label>
+                        <input type="number" class="input-group__field" id="targetMonthlyIncome" value="1000" min="0">
+                        <div class="input-group__hint" id="targetMonthlyIncomeHint">The monthly income you want to achieve from your investment. This helps plan for financial goals.</div>
                     </div>
                 </div>
             </div>
 
             <div class="results-section">
-                <h2 class="section-title">Calculated Results</h2>
+                <h2 class="section__title">Calculated Results</h2>
                 <div class="results-grid">
                     <div class="result-card">
-                        <div class="result-label" id="finalAmountLabel">Final Amount</div>
-                        <div class="result-value" id="finalAmountValue">0</div>
-                        <div class="result-hint" id="finalAmountHint">Total amount at the end of investment period including all profits</div>
+                        <div class="result-card__label" id="finalAmountLabel">Final Amount</div>
+                        <div class="result-card__value" id="finalAmountValue">0</div>
+                        <div class="result-card__hint" id="finalAmountHint">Total amount at the end of investment period including all profits</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label" id="totalProfitLabel">Total Profit</div>
-                        <div class="result-value" id="totalProfitValue">0</div>
-                        <div class="result-hint" id="totalProfitHint">Absolute profit and percentage gain over the entire period</div>
+                        <div class="result-card__label" id="totalProfitLabel">Total Profit</div>
+                        <div class="result-card__value" id="totalProfitValue">0</div>
+                        <div class="result-card__hint" id="totalProfitHint">Absolute profit and percentage gain over the entire period</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label" id="effectiveRateLabel">Effective Rate</div>
-                        <div class="result-value" id="effectiveRateValue">0%</div>
-                        <div class="result-hint" id="effectiveRateHint">Actual annualized return considering compounding effect</div>
+                        <div class="result-card__label" id="effectiveRateLabel">Effective Rate</div>
+                        <div class="result-card__value" id="effectiveRateValue">0%</div>
+                        <div class="result-card__hint" id="effectiveRateHint">Actual annualized return considering compounding effect</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label" id="theoreticalMonthlyIncomeLabel">Theoretical Monthly Income</div>
-                        <div class="result-value" id="theoreticalMonthlyIncomeValue">0</div>
-                        <div class="result-hint" id="theoreticalMonthlyIncomeHint">Monthly income if withdrawing interest from final amount</div>
+                        <div class="result-card__label" id="theoreticalMonthlyIncomeLabel">Theoretical Monthly Income</div>
+                        <div class="result-card__value" id="theoreticalMonthlyIncomeValue">0</div>
+                        <div class="result-card__hint" id="theoreticalMonthlyIncomeHint">Monthly income if withdrawing interest from final amount</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label" id="averageMonthlyProfitLabel">Avg Monthly Profit</div>
-                        <div class="result-value" id="averageMonthlyProfitValue">0</div>
-                        <div class="result-hint" id="averageMonthlyProfitHint">Average monthly capital growth during investment period</div>
+                        <div class="result-card__label" id="averageMonthlyProfitLabel">Avg Monthly Profit</div>
+                        <div class="result-card__value" id="averageMonthlyProfitValue">0</div>
+                        <div class="result-card__hint" id="averageMonthlyProfitHint">Average monthly capital growth during investment period</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label" id="averageAnnualProfitLabel">Avg Annual Profit</div>
-                        <div class="result-value" id="averageAnnualProfitValue">0</div>
-                        <div class="result-hint" id="averageAnnualProfitHint">Average annual capital growth during investment period</div>
+                        <div class="result-card__label" id="averageAnnualProfitLabel">Avg Annual Profit</div>
+                        <div class="result-card__value" id="averageAnnualProfitValue">0</div>
+                        <div class="result-card__hint" id="averageAnnualProfitHint">Average annual capital growth during investment period</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="milestones-section">
-            <h2 class="section-title">Key Milestones</h2>
+            <h2 class="section__title">Key Milestones</h2>
             <div class="milestones-grid">
                 <div class="milestone-card">
-                    <div class="milestone-title" id="doubleLabel">Double Investment</div>
-                    <div class="milestone-value" id="doubleValue">0 years</div>
+                    <div class="milestone-card__title" id="doubleLabel">Double Investment</div>
+                    <div class="milestone-card__value" id="doubleValue">0 years</div>
                 </div>
                 <div class="milestone-card">
-                    <div class="milestone-title" id="tenfoldLabel">Tenfold Investment</div>
-                    <div class="milestone-value" id="tenfoldValue">0 years</div>
+                    <div class="milestone-card__title" id="tenfoldLabel">Tenfold Investment</div>
+                    <div class="milestone-card__value" id="tenfoldValue">0 years</div>
                 </div>
                 <div class="milestone-card">
-                    <div class="milestone-title" id="hundredfoldLabel">Hundredfold Investment</div>
-                    <div class="milestone-value" id="hundredfoldValue">0 years</div>
+                    <div class="milestone-card__title" id="hundredfoldLabel">Hundredfold Investment</div>
+                    <div class="milestone-card__value" id="hundredfoldValue">0 years</div>
                 </div>
                 <div class="milestone-card">
-                    <div class="milestone-title" id="targetIncomeLabel">Target Monthly Income</div>
-                    <div class="milestone-value" id="targetIncomeValue">0 years</div>
+                    <div class="milestone-card__title" id="targetIncomeLabel">Target Monthly Income</div>
+                    <div class="milestone-card__value" id="targetIncomeValue">0 years</div>
                 </div>
             </div>
         </div>
 
         <div class="plan-section">
-            <h2 class="section-title">Monthly Income Plan</h2>
+            <h2 class="section__title">Monthly Income Plan</h2>
             <div>
                 <table class="plan-table">
                     <thead>
-                        <tr>
-                            <th id="monthLabel">Month</th>
-                            <th id="cumulativeAmountLabel">Cumulative Amount</th>
-                            <th id="monthlyIncomeLabel">Monthly Income</th>
-                            <th id="monthlyPercentageLabel">% of Initial</th>
+                        <tr class="plan-table__row">
+                            <th class="plan-table__header" id="monthLabel">Month</th>
+                            <th class="plan-table__header" id="cumulativeAmountLabel">Cumulative Amount</th>
+                            <th class="plan-table__header" id="monthlyIncomeLabel">Monthly Income</th>
+                            <th class="plan-table__header" id="monthlyPercentageLabel">% of Initial</th>
                         </tr>
                     </thead>
                     <tbody id="planTableBody">
@@ -781,7 +804,7 @@
 
         // Translation elements mapping
         const translationElements = {
-            title: document.querySelector('h1'),
+            title: document.getElementById('title'),
             inputParameters: document.querySelector('.input-section .section-title'),
             initialAmountLabel: document.getElementById('initialAmountLabel'),
             initialAmountHint: document.getElementById('initialAmountHint'),
@@ -955,11 +978,12 @@
             
             monthlyData.forEach(data => {
                 const row = document.createElement('tr');
+                row.className = 'plan-table__row';
                 row.innerHTML = `
-                    <td>${data.month}</td>
-                    <td class="cumulative">${formatNumber(data.cumulativeAmount)}</td>
-                    <td class="${data.monthlyIncome >= 0 ? 'positive' : 'negative'}">${formatNumber(data.monthlyIncome)}</td>
-                    <td>${data.percentageOfInitial.toFixed(2)}%</td>
+                    <td class="plan-table__cell">${data.month}</td>
+                    <td class="plan-table__cell plan-table__cell--cumulative">${formatNumber(data.cumulativeAmount)}</td>
+                    <td class="plan-table__cell ${data.monthlyIncome >= 0 ? 'plan-table__cell--positive' : 'plan-table__cell--negative'}">${formatNumber(data.monthlyIncome)}</td>
+                    <td class="plan-table__cell">${data.percentageOfInitial.toFixed(2)}%</td>
                 `;
                 elements.planTableBody.appendChild(row);
             });
@@ -970,43 +994,43 @@
             const t = translations[currentLanguage];
             
             // Update text content
-            translationElements.title.textContent = t.title;
-            translationElements.inputParameters.textContent = t.inputParameters;
-            translationElements.initialAmountLabel.textContent = t.initialAmount;
-            translationElements.initialAmountHint.textContent = t.initialAmountHint;
-            translationElements.interestRateLabel.textContent = t.interestRate;
-            translationElements.interestRateHint.textContent = t.interestRateHint;
-            translationElements.compoundingLabel.textContent = t.compounding;
-            translationElements.compoundingHint.textContent = t.compoundingHint;
-            translationElements.investmentTermLabel.textContent = t.investmentTerm;
-            translationElements.investmentTermHint.textContent = t.investmentTermHint;
-            translationElements.additionalInvestmentLabel.textContent = t.additionalInvestment;
-            translationElements.additionalInvestmentHint.textContent = t.additionalInvestmentHint;
-            translationElements.targetMonthlyIncomeLabel.textContent = t.targetMonthlyIncome;
-            translationElements.targetMonthlyIncomeHint.textContent = t.targetMonthlyIncomeHint;
-            translationElements.calculatedResults.textContent = t.calculatedResults;
-            translationElements.finalAmountLabel.textContent = t.finalAmount;
-            translationElements.finalAmountHint.textContent = t.finalAmountHint;
-            translationElements.totalProfitLabel.textContent = t.totalProfit;
-            translationElements.totalProfitHint.textContent = t.totalProfitHint;
-            translationElements.effectiveRateLabel.textContent = t.effectiveRate;
-            translationElements.effectiveRateHint.textContent = t.effectiveRateHint;
-            translationElements.theoreticalMonthlyIncomeLabel.textContent = t.theoreticalMonthlyIncome;
-            translationElements.theoreticalMonthlyIncomeHint.textContent = t.theoreticalMonthlyIncomeHint;
-            translationElements.averageMonthlyProfitLabel.textContent = t.averageMonthlyProfit;
-            translationElements.averageMonthlyProfitHint.textContent = t.averageMonthlyProfitHint;
-            translationElements.averageAnnualProfitLabel.textContent = t.averageAnnualProfit;
-            translationElements.averageAnnualProfitHint.textContent = t.averageAnnualProfitHint;
-            translationElements.keyMilestones.textContent = t.keyMilestones;
-            translationElements.doubleLabel.textContent = t.doubleInvestment;
-            translationElements.tenfoldLabel.textContent = t.tenfoldInvestment;
-            translationElements.hundredfoldLabel.textContent = t.hundredfoldInvestment;
-            translationElements.targetIncomeLabel.textContent = t.targetMonthlyIncomeMilestone;
-            translationElements.monthlyIncomePlan.textContent = t.monthlyIncomePlan;
-            translationElements.monthLabel.textContent = t.month;
-            translationElements.cumulativeAmountLabel.textContent = t.cumulativeAmount;
-            translationElements.monthlyIncomeLabel.textContent = t.monthlyIncome;
-            translationElements.monthlyPercentageLabel.textContent = t.monthlyPercentage;
+            translationElements.title.textContent = t.title; // This is already a BEM element: header__title
+            document.querySelector('.input-section .section__title').textContent = t.inputParameters;
+            document.getElementById('initialAmountLabel').textContent = t.initialAmount;
+            document.getElementById('initialAmountHint').textContent = t.initialAmountHint;
+            document.getElementById('interestRateLabel').textContent = t.interestRate;
+            document.getElementById('interestRateHint').textContent = t.interestRateHint;
+            document.getElementById('compoundingLabel').textContent = t.compounding;
+            document.getElementById('compoundingHint').textContent = t.compoundingHint;
+            document.getElementById('investmentTermLabel').textContent = t.investmentTerm;
+            document.getElementById('investmentTermHint').textContent = t.investmentTermHint;
+            document.getElementById('additionalInvestmentLabel').textContent = t.additionalInvestment;
+            document.getElementById('additionalInvestmentHint').textContent = t.additionalInvestmentHint;
+            document.getElementById('targetMonthlyIncomeLabel').textContent = t.targetMonthlyIncome;
+            document.getElementById('targetMonthlyIncomeHint').textContent = t.targetMonthlyIncomeHint;
+            document.querySelector('.results-section .section__title').textContent = t.calculatedResults;
+            document.querySelector('[id="finalAmountLabel"]').textContent = t.finalAmount;
+            document.querySelector('[id="finalAmountHint"]').textContent = t.finalAmountHint;
+            document.querySelector('[id="totalProfitLabel"]').textContent = t.totalProfit;
+            document.querySelector('[id="totalProfitHint"]').textContent = t.totalProfitHint;
+            document.querySelector('[id="effectiveRateLabel"]').textContent = t.effectiveRate;
+            document.querySelector('[id="effectiveRateHint"]').textContent = t.effectiveRateHint;
+            document.querySelector('[id="theoreticalMonthlyIncomeLabel"]').textContent = t.theoreticalMonthlyIncome;
+            document.querySelector('[id="theoreticalMonthlyIncomeHint"]').textContent = t.theoreticalMonthlyIncomeHint;
+            document.querySelector('[id="averageMonthlyProfitLabel"]').textContent = t.averageMonthlyProfit;
+            document.querySelector('[id="averageMonthlyProfitHint"]').textContent = t.averageMonthlyProfitHint;
+            document.querySelector('[id="averageAnnualProfitLabel"]').textContent = t.averageAnnualProfit;
+            document.querySelector('[id="averageAnnualProfitHint"]').textContent = t.averageAnnualProfitHint;
+            document.querySelector('.milestones-section .section__title').textContent = t.keyMilestones;
+            document.getElementById('doubleLabel').textContent = t.doubleInvestment;
+            document.getElementById('tenfoldLabel').textContent = t.tenfoldInvestment;
+            document.getElementById('hundredfoldLabel').textContent = t.hundredfoldInvestment;
+            document.getElementById('targetIncomeLabel').textContent = t.targetMonthlyIncomeMilestone;
+            document.querySelector('.plan-section .section__title').textContent = t.monthlyIncomePlan;
+            document.getElementById('monthLabel').textContent = t.month;
+            document.getElementById('cumulativeAmountLabel').textContent = t.cumulativeAmount;
+            document.getElementById('monthlyIncomeLabel').textContent = t.monthlyIncome;
+            document.getElementById('monthlyPercentageLabel').textContent = t.monthlyPercentage;
 
             // Update button text
             elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
@@ -1020,7 +1044,7 @@
 
         // Event listeners
         elements.languageToggle.addEventListener('click', () => {
-            currentLanguage = currentLanguage === 'en' ? 'ru' : 'en';
+            currentLanguage = (currentLanguage === 'en') ? 'ru' : 'en';
             translateUI();
         });
 
