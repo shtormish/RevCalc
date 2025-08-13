@@ -16,9 +16,14 @@
             --text: #0f172a;
             --text-secondary: #64748b;
             --border: #e2e8f0;
+            --grid-line-color: #cbd5e1;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
+            --milestone-double: #34d399;
+            --milestone-tenfold: #fbbf24;
+            --milestone-hundredfold: #ef4444;
+            --milestone-target: #60a5fa;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
@@ -220,8 +225,20 @@
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             border-radius: 12px;
             padding: 20px;
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid transparent;
         }
+
+        .milestone-card--double { border-left-color: var(--milestone-double); }
+        .milestone-card--double .milestone-card__title { color: var(--milestone-double); }
+
+        .milestone-card--tenfold { border-left-color: var(--milestone-tenfold); }
+        .milestone-card--tenfold .milestone-card__title { color: var(--milestone-tenfold); }
+
+        .milestone-card--hundredfold { border-left-color: var(--milestone-hundredfold); }
+        .milestone-card--hundredfold .milestone-card__title { color: var(--milestone-hundredfold); }
+
+        .milestone-card--target { border-left-color: var(--milestone-target); }
+        .milestone-card--target .milestone-card__title { color: var(--milestone-target); }
 
         .milestone-card__title {
             font-weight: 600;
@@ -232,6 +249,94 @@
         .milestone-card__value {
             font-size: 1.2rem;
             font-weight: 700;
+        }
+        
+        .chart-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 6px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chart-fill {
+            fill: url(#chartGradient);
+            stroke: none;
+        }
+
+        .grid-line, .axis-line {
+            stroke: var(--grid-line-color);
+            stroke-dasharray: 2, 3;
+        }
+
+        .axis-label {
+            font-size: 0.75rem;
+            fill: var(--text-secondary);
+        }
+
+        .milestone-line {
+            stroke-width: 1.5;
+            stroke-dasharray: 4, 4;
+            pointer-events: none;
+        }
+
+        .milestone-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            display: none;
+            padding: 8px 12px;
+            background: var(--text);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            pointer-events: none; /* So it doesn't interfere with mouse events */
+            transform: translate(-50%, -120%); /* Position above cursor */
+            transition: opacity 0.1s ease;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .chart-indicator-line {
+            stroke: var(--primary);
+            stroke-width: 1;
+            stroke-dasharray: 3, 3;
+            pointer-events: none;
+        }
+
+        .chart-indicator-point {
+            fill: var(--primary);
+            stroke: white;
+            stroke-width: 2px;
+            pointer-events: none;
         }
 
         .plan-section {
@@ -464,22 +569,29 @@
         <div class="milestones-section">
             <h2 class="section__title">Key Milestones</h2>
             <div class="milestones-grid">
-                <div class="milestone-card">
+                <div class="milestone-card milestone-card--double">
                     <div class="milestone-card__title" id="doubleLabel">Double Investment</div>
                     <div class="milestone-card__value" id="doubleValue">0 years</div>
                 </div>
-                <div class="milestone-card">
+                <div class="milestone-card milestone-card--tenfold">
                     <div class="milestone-card__title" id="tenfoldLabel">Tenfold Investment</div>
                     <div class="milestone-card__value" id="tenfoldValue">0 years</div>
                 </div>
-                <div class="milestone-card">
+                <div class="milestone-card milestone-card--hundredfold">
                     <div class="milestone-card__title" id="hundredfoldLabel">Hundredfold Investment</div>
                     <div class="milestone-card__value" id="hundredfoldValue">0 years</div>
                 </div>
-                <div class="milestone-card">
+                <div class="milestone-card milestone-card--target">
                     <div class="milestone-card__title" id="targetIncomeLabel">Target Monthly Income</div>
                     <div class="milestone-card__value" id="targetIncomeValue">0 years</div>
                 </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="section__title" id="chartTitle">Investment Growth Chart</h2>
+            <div class="chart-container" id="chartContainer">
+                <!-- SVG chart is injected here by JavaScript -->
             </div>
         </div>
 
@@ -672,6 +784,35 @@
             return { double: daysToDouble, tenfold: daysToTenfold, hundredfold: daysToHundredfold, targetIncome: daysToTargetIncome };
         }
 
+        // Generate data points for the chart with a daily simulation model.
+        function generateChartData(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency) {
+            if (termDays < 1) return [];
+
+            const annualRate = rate / 100;
+            const dailyRate = annualRate / 365;
+            const dataPoints = [{ day: 0, amount: principal }];
+            let amount = principal;
+
+            // Use a step to keep the number of points reasonable for performance
+            const maxPoints = 200;
+            const step = Math.max(1, Math.floor(termDays / maxPoints));
+
+            for (let day = 1; day <= termDays; day++) {
+                if (additionalFrequency > 0 && day % additionalFrequency === 0) amount += additionalAmount;
+
+                if (compoundingDays > 0 && day % compoundingDays === 0) {
+                    amount *= (1 + dailyRate * compoundingDays);
+                } else if (compoundingDays === 0) {
+                    amount += principal * dailyRate; // Simple interest simulation
+                }
+
+                if (day % step === 0 || day === termDays) {
+                    dataPoints.push({ day: day, amount: amount });
+                }
+            }
+            return dataPoints;
+        }
+
         // Translation dictionaries
         const translations = {
             en: {
@@ -708,6 +849,11 @@
                 hundredfoldInvestment: "Hundredfold Investment",
                 targetMonthlyIncomeMilestone: "Target Monthly Income",
                 monthlyIncomePlan: "Monthly Income Plan",
+                doubleShort: "2x",
+                tenfoldShort: "10x",
+                hundredfoldShort: "100x",
+                targetShort: "Target",
+                chartTitle: "Investment Growth Chart",
                 month: "Month",
                 cumulativeAmount: "Cumulative Amount",
                 monthlyIncome: "Monthly Income",
@@ -760,6 +906,11 @@
                 hundredfoldInvestment: "Увеличение в 100 раз",
                 targetMonthlyIncomeMilestone: "Целевой Меcячный Доход",
                 monthlyIncomePlan: "Помеcячный План Дохода",
+                doubleShort: "2x",
+                tenfoldShort: "10x",
+                hundredfoldShort: "100x",
+                targetShort: "Цель",
+                chartTitle: "График Роcта Инвеcтиций",
                 month: "Меcяц",
                 cumulativeAmount: "Накопленная cумма",
                 monthlyIncome: "Меcячный Доход",
@@ -803,7 +954,8 @@
             tenfoldValue: document.getElementById('tenfoldValue'),
             hundredfoldValue: document.getElementById('hundredfoldValue'),
             targetIncomeValue: document.getElementById('targetIncomeValue'),
-            planTableBody: document.getElementById('planTableBody')
+            planTableBody: document.getElementById('planTableBody'),
+            chartContainer: document.getElementById('chartContainer')
         };
 
         // Translation elements mapping
@@ -841,6 +993,7 @@
             hundredfoldLabel: document.getElementById('hundredfoldLabel'),
             targetIncomeLabel: document.getElementById('targetIncomeLabel'),
             monthlyIncomePlan: document.querySelector('.plan-section .section-title'),
+            chartTitle: document.getElementById('chartTitle'),
             monthLabel: document.getElementById('monthLabel'),
             cumulativeAmountLabel: document.getElementById('cumulativeAmountLabel'),
             monthlyIncomeLabel: document.getElementById('monthlyIncomeLabel'),
@@ -848,7 +1001,7 @@
         };
 
         // Initialize compounding options
-        function initializeCompoundingOptions() {
+        function initializeCompoundingOptions(selectedValues = {}) {
             const compoundingOptions = {
                 en: [
                     { value: "0", text: "No Compounding" },
@@ -904,9 +1057,9 @@
                 const opt = document.createElement('option');
                 opt.value = option.value;
                 opt.textContent = option.text;
-                if (option.value === "365") opt.selected = true;
                 elements.compounding.appendChild(opt);
             });
+            elements.compounding.value = selectedValues.compounding || '365';
 
             // Clear and populate term unit options
             elements.termUnit.innerHTML = '';
@@ -914,9 +1067,9 @@
                 const opt = document.createElement('option');
                 opt.value = option.value;
                 opt.textContent = option.text;
-                if (option.value === "365") opt.selected = true;
                 elements.termUnit.appendChild(opt);
             });
+            elements.termUnit.value = selectedValues.termUnit || '365';
 
             // Clear and populate additional frequency options
             elements.additionalFrequency.innerHTML = '';
@@ -924,9 +1077,9 @@
                 const opt = document.createElement('option');
                 opt.value = option.value;
                 opt.textContent = option.text;
-                if (option.value === "30") opt.selected = true;
                 elements.additionalFrequency.appendChild(opt);
             });
+            elements.additionalFrequency.value = selectedValues.additionalFrequency || '30';
         }
 
         // Update calculations
@@ -972,8 +1125,299 @@
 
             // Calculate monthly plan
             const monthlyPlan = calculateMonthlyPlan(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
+            const chartData = generateChartData(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
+
             updateMonthlyPlanTable(monthlyPlan, principal);
-            renderSvgChart(monthlyPlan);
+            renderSvgChart(chartData, termDays, milestones);
+        }
+        
+        // Render SVG chart for investment growth
+        function renderSvgChart(chartData, termDays, milestones) {
+            const container = elements.chartContainer;
+            container.innerHTML = ''; // Clear previous chart
+
+            if (!chartData || chartData.length < 2) {
+                container.textContent = currentLanguage === 'ru' ? 'Недостаточно данных для графика' : 'Not enough data for a chart';
+                return;
+            }
+
+            // Create tooltip element and append it to the container
+            const tooltip = document.createElement('div');
+            tooltip.className = 'chart-tooltip';
+            container.appendChild(tooltip);
+
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+
+            const padding = { top: 20, right: 20, bottom: 50, left: 70 };
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Fallback for non-visible containers
+            if (width === 0 || height === 0) return;
+
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            const amounts = chartData.map(d => d.amount);
+            const minAmount = Math.min(...amounts);
+            let maxAmount = Math.max(...amounts);
+
+            // Handle edge case where min and max are the same to avoid division by zero
+            if (maxAmount <= minAmount) {
+                maxAmount = minAmount + 1;
+            }
+            const range = maxAmount - minAmount;
+
+            // Create scales
+            const xScale = (day) => padding.left + (day / termDays) * chartWidth;
+            const yScale = (amount) => {
+                if (range === 0) return padding.top + chartHeight / 2; // Center the line if no change
+                return padding.top + chartHeight - ((amount - minAmount) / range) * chartHeight;
+            };
+
+            // --- Gradient Definition ---
+            const defs = document.createElementNS(svgNS, 'defs');
+            const gradient = document.createElementNS(svgNS, 'linearGradient');
+            gradient.id = 'chartGradient';
+            gradient.setAttribute('x1', '0%');
+            gradient.setAttribute('y1', '0%');
+            gradient.setAttribute('x2', '0%');
+            gradient.setAttribute('y2', '100%');
+            
+            const stop1 = document.createElementNS(svgNS, 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', 'var(--primary)');
+            stop1.setAttribute('stop-opacity', '0.2');
+            
+            const stop2 = document.createElementNS(svgNS, 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', 'var(--primary)');
+            stop2.setAttribute('stop-opacity', '0');
+
+            gradient.appendChild(stop1);
+            gradient.appendChild(stop2);
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+
+            // --- Grid Lines & Y-Axis Labels ---
+            const gridGroup = document.createElementNS(svgNS, 'g');
+            const yAxisTicks = 10;
+            for (let i = 0; i <= yAxisTicks; i++) {
+                const y = padding.top + (i / yAxisTicks) * chartHeight;
+                const value = minAmount + range * (1 - i / yAxisTicks);
+
+                const line = document.createElementNS(svgNS, 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - padding.right);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'grid-line');
+                gridGroup.appendChild(line);
+
+                const text = document.createElementNS(svgNS, 'text');
+                text.setAttribute('x', padding.left - 10);
+                text.setAttribute('y', y);
+                text.setAttribute('dy', '0.3em');
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('class', 'axis-label');
+                text.textContent = formatNumber(value);
+                gridGroup.appendChild(text);
+            }
+            svg.appendChild(gridGroup);
+
+            // --- X-Axis Labels ---
+            const xAxisGroup = document.createElementNS(svgNS, 'g');
+            const numTicksX = 10;
+
+            let unitDivisor = 1;
+            let unitLabel = currentLanguage === 'ru' ? 'Дни' : 'Days';
+            if (termDays > 365 * 2) {
+                unitDivisor = 365;
+                unitLabel = currentLanguage === 'ru' ? 'Годы' : 'Years';
+            } else if (termDays > 60) {
+                unitDivisor = 30;
+                unitLabel = currentLanguage === 'ru' ? 'Месяцы' : 'Months';
+            }
+
+            const maxUnits = termDays / unitDivisor;
+
+            // Calculate a "nice" integer step between ticks to avoid duplicates and decimals
+            let step = Math.ceil(maxUnits / numTicksX);
+            if (step > 1) {
+                const powerOf10 = Math.pow(10, Math.floor(Math.log10(step)));
+                const normalizedStep = step / powerOf10;
+                if (normalizedStep > 5) step = 10 * powerOf10;
+                else if (normalizedStep > 2) step = 5 * powerOf10;
+                else if (normalizedStep > 1) step = 2 * powerOf10;
+                else step = 1 * powerOf10;
+            }
+            step = Math.max(1, step); // Ensure step is at least 1
+
+            for (let i = 0; ; i++) {
+                 const unitValue = i * step;
+                 if (unitValue > maxUnits) break;
+
+                 const dayValue = unitValue * unitDivisor;
+                 const x = xScale(dayValue);
+
+                 // Add vertical grid line
+                 const vLine = document.createElementNS(svgNS, 'line');
+                 vLine.setAttribute('x1', x);
+                 vLine.setAttribute('y1', padding.top);
+                 vLine.setAttribute('x2', x);
+                 vLine.setAttribute('y2', height - padding.bottom);
+                 vLine.setAttribute('class', 'grid-line');
+                 gridGroup.appendChild(vLine);
+
+                 const text = document.createElementNS(svgNS, 'text');
+                 text.setAttribute('x', x);
+                 text.setAttribute('y', height - padding.bottom + 20);
+                 text.setAttribute('text-anchor', 'middle');
+                 text.setAttribute('class', 'axis-label');
+                 text.textContent = unitValue.toString();
+                 xAxisGroup.appendChild(text);
+            }
+
+            const axisTitle = document.createElementNS(svgNS, 'text');
+            axisTitle.setAttribute('x', padding.left + chartWidth / 2);
+            axisTitle.setAttribute('y', height - padding.bottom + 40);
+            axisTitle.setAttribute('text-anchor', 'middle');
+            axisTitle.setAttribute('class', 'axis-label');
+            axisTitle.style.fontWeight = '600';
+            axisTitle.textContent = unitLabel;
+            xAxisGroup.appendChild(axisTitle);
+
+            svg.appendChild(xAxisGroup);
+
+            // --- Chart Path ---
+            const pathData = chartData.map((d, i) => {
+                const x = xScale(d.day);
+                const y = yScale(d.amount);
+                return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)},${y.toFixed(2)}`;
+            }).join(' ');
+
+            // --- Fill Path ---
+            const fillPathData = `${pathData} L ${xScale(termDays).toFixed(2)},${(height - padding.bottom).toFixed(2)} L ${xScale(0).toFixed(2)},${(height - padding.bottom).toFixed(2)} Z`;
+            const fillPath = document.createElementNS(svgNS, 'path');
+            fillPath.setAttribute('d', fillPathData);
+            fillPath.setAttribute('class', 'chart-fill');
+            svg.appendChild(fillPath);
+
+            // --- Line Path ---
+            const linePath = document.createElementNS(svgNS, 'path');
+            linePath.setAttribute('d', pathData);
+            linePath.setAttribute('class', 'chart-line');
+            svg.appendChild(linePath);
+
+            // --- Milestone Markers ---
+            const milestoneMarkersGroup = document.createElementNS(svgNS, 'g');
+            const t = translations[currentLanguage];
+            const milestoneData = [
+                { key: 'double', days: milestones.double, color: 'var(--milestone-double)', label: t.doubleShort },
+                { key: 'tenfold', days: milestones.tenfold, color: 'var(--milestone-tenfold)', label: t.tenfoldShort },
+                { key: 'hundredfold', days: milestones.hundredfold, color: 'var(--milestone-hundredfold)', label: t.hundredfoldShort },
+                { key: 'targetIncome', days: milestones.targetIncome, color: 'var(--milestone-target)', label: t.targetShort }
+            ];
+
+            milestoneData.forEach(marker => {
+                if (marker.days > 0 && marker.days <= termDays) {
+                    const x = xScale(marker.days);
+
+                    // Marker line
+                    const line = document.createElementNS(svgNS, 'line');
+                    line.setAttribute('x1', x);
+                    line.setAttribute('y1', padding.top);
+                    line.setAttribute('x2', x);
+                    line.setAttribute('y2', height - padding.bottom);
+                    line.setAttribute('class', 'milestone-line');
+                    line.style.stroke = marker.color;
+                    milestoneMarkersGroup.appendChild(line);
+
+                    // Marker label
+                    const text = document.createElementNS(svgNS, 'text');
+                    text.setAttribute('x', x);
+                    text.setAttribute('y', padding.top - 5);
+                    text.setAttribute('class', 'milestone-label');
+                    text.style.fill = marker.color;
+                    text.textContent = marker.label;
+                    milestoneMarkersGroup.appendChild(text);
+                }
+            });
+            svg.appendChild(milestoneMarkersGroup);
+
+            // --- Indicators and Tooltip Logic ---
+            const indicatorLineY = document.createElementNS(svgNS, 'line');
+            indicatorLineY.setAttribute('class', 'chart-indicator-line');
+            indicatorLineY.style.display = 'none';
+            svg.appendChild(indicatorLineY);
+
+            const indicatorLineX = document.createElementNS(svgNS, 'line');
+            indicatorLineX.setAttribute('class', 'chart-indicator-line');
+            indicatorLineX.style.display = 'none';
+            svg.appendChild(indicatorLineX);
+
+            const indicatorPoint = document.createElementNS(svgNS, 'circle');
+            indicatorPoint.setAttribute('class', 'chart-indicator-point');
+            indicatorPoint.style.display = 'none';
+            svg.appendChild(indicatorPoint);
+
+            svg.addEventListener('mouseover', () => {
+                tooltip.style.display = 'block';
+                indicatorLineY.style.display = 'block';
+                indicatorLineX.style.display = 'block';
+                indicatorPoint.style.display = 'block';
+            });
+
+            svg.addEventListener('mouseout', () => {
+                tooltip.style.display = 'none';
+                indicatorLineY.style.display = 'none';
+                indicatorLineX.style.display = 'none';
+                indicatorPoint.style.display = 'none';
+            });
+
+            svg.addEventListener('mousemove', (event) => {
+                const rect = svg.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+
+                // Convert mouse X to day value, clamped to the chart bounds
+                const dayAtMouse = Math.max(0, Math.min(termDays, (mouseX - padding.left) / chartWidth * termDays));
+
+                // Find the closest data point using reduce (efficient enough for ~200 points)
+                const closestPoint = chartData.reduce((prev, curr) => {
+                    return (Math.abs(curr.day - dayAtMouse) < Math.abs(prev.day - dayAtMouse) ? curr : prev);
+                });
+
+                const pointX = xScale(closestPoint.day);
+                const pointY = yScale(closestPoint.amount);
+
+                // Update indicator positions
+                indicatorLineY.setAttribute('x1', pointX);
+                indicatorLineY.setAttribute('y1', padding.top);
+                indicatorLineY.setAttribute('x2', pointX);
+                indicatorLineY.setAttribute('y2', height - padding.bottom);
+
+                indicatorLineX.setAttribute('x1', padding.left);
+                indicatorLineX.setAttribute('y1', pointY);
+                indicatorLineX.setAttribute('x2', width - padding.right);
+                indicatorLineX.setAttribute('y2', pointY);
+                
+                indicatorPoint.setAttribute('cx', pointX);
+                indicatorPoint.setAttribute('cy', pointY);
+                indicatorPoint.setAttribute('r', 5);
+
+                // Update tooltip content and position
+                const dayLabel = currentLanguage === 'ru' ? 'День' : 'Day';
+                const amountLabel = currentLanguage === 'ru' ? 'Сумма' : 'Amount';
+                tooltip.innerHTML = `<strong>${dayLabel}:</strong> ${Math.round(closestPoint.day)}<br><strong>${amountLabel}:</strong> ${formatNumber(closestPoint.amount)}`;
+                
+                tooltip.style.left = `${pointX}px`;
+                tooltip.style.top = `${pointY}px`;
+            });
+
+            container.appendChild(svg);
         }
 
         // Update monthly plan table
@@ -997,6 +1441,13 @@
         function translateUI() {
             const t = translations[currentLanguage];
             
+            // Store current select values before they are reset
+            const selectedValues = {
+                compounding: elements.compounding.value,
+                termUnit: elements.termUnit.value,
+                additionalFrequency: elements.additionalFrequency.value
+            };
+
             // Update text content
             translationElements.title.textContent = t.title; // This is already a BEM element: header__title
             document.querySelector('.input-section .section__title').textContent = t.inputParameters;
@@ -1040,7 +1491,7 @@
             elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
 
             // Reinitialize options
-            initializeCompoundingOptions();
+            initializeCompoundingOptions(selectedValues);
             
             // Recalculate values to update language-dependent text (e.g., milestones)
             updateCalculations();

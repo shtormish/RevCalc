@@ -14,6 +14,7 @@ A modern, responsive single-page investment calculator that calculates compound 
 * [Responsive Design](#-responsive-design)
 * [Calculation Details](#-calculation-details)
 * [Internationalization](#-internationalization)
+* [Technology Stack](#-technology-stack)
 * [Technical Implementation](#-technical-implementation)
 * [Customization](#-customization)
 * [Privacy & Security](#-privacy--security)
@@ -43,6 +44,10 @@ A modern, responsive single-page investment calculator that calculates compound 
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 - **Language Support**: English and Russian localization
 - **Modern UI**: Clean, minimalist design with neobrutalism aesthetics
+- **Interactive Growth Chart**: A dynamic SVG chart visualizes investment growth over time, featuring:
+  - Interactive tooltips with precise data on hover.
+  - Dynamic axes and grid lines that adapt to the selected term.
+  - Color-coded milestone markers directly on the chart.
 - **Real-time Updates**: All calculations update instantly
 - **Comprehensive Tooltips**: Detailed explanations for all parameters
 
@@ -129,6 +134,19 @@ The calculator supports two languages:
 - **Russian**
 
 Click the language toggle button in the header to switch between languages.
+
+## 💻 Technology Stack
+
+This project is built with a focus on simplicity, performance, and zero dependencies.
+
+*   **Core Technologies**:
+    *   **HTML5**: For the application structure.
+    *   **CSS3**: For styling, layout (Grid/Flexbox), and theming (CSS Variables).
+    *   **Vanilla JavaScript (ES6+)**: For all logic, calculations, and dynamic DOM manipulation, including the SVG chart rendering.
+*   **Development & Tooling**:
+    *   **AI-Assisted Development**: The development process was significantly aided by AI coding assistants, including **Qwen-Code3** and **Gemini Code Assist**, for generating code, refactoring, and debugging.
+    *   **Hosting**: Deployed on **GitHub Pages**.
+*   **Dependencies**: None. The project is entirely self-contained in a single `index.html` file.
 
 ## 🔧 Technical Implementation
 
