@@ -23,6 +23,7 @@
             --milestone-double: #34d399;
             --milestone-tenfold: #fbbf24;
             --milestone-hundredfold: #ef4444;
+            --inflation-loss: #ef4444;
             --milestone-target: #60a5fa;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -152,6 +153,7 @@
             --secondary: #1f2937;
             --text: #f9fafb;
             --text-secondary: #9ca3af;
+            --inflation-loss: #ef4444;
             --border: #374151;
             --grid-line-color: #4b5563;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
@@ -378,6 +380,13 @@
 
         .chart-fill {
             fill: url(#chartGradient);
+            stroke: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out 0.5s;
+        }
+
+        .chart-fill-inflation {
+            fill: var(--inflation-loss);
             stroke: none;
             opacity: 0;
             transition: opacity 0.5s ease-in-out 0.5s;
@@ -641,6 +650,12 @@
                         <input type="number" class="input-group__field" id="targetMonthlyIncome" value="1000" min="0">
                         <div class="input-group__hint" id="targetMonthlyIncomeHint">The monthly income you want to achieve from your investment. This helps plan for financial goals.</div>
                     </div>
+
+                    <div class="input-group">
+                        <label class="input-group__label" id="inflationRateLabel">Expected Annual Inflation (%)</label>
+                        <input type="number" class="input-group__field" id="inflationRate" value="0" min="0" max="100" step="0.1">
+                        <div class="input-group__hint" id="inflationRateHint">The rate at which money loses its value. This helps calculate the real return on your investment.</div>
+                    </div>
                 </div>
             </div>
 
@@ -676,6 +691,16 @@
                         <div class="result-card__label" id="averageAnnualProfitLabel">Avg Annual Profit</div>
                         <div class="result-card__value" id="averageAnnualProfitValue">0</div>
                         <div class="result-card__hint" id="averageAnnualProfitHint">Average annual capital growth during investment period</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="realFinalAmountLabel">Real Final Amount</div>
+                        <div class="result-card__value" id="realFinalAmountValue">0</div>
+                        <div class="result-card__hint" id="realFinalAmountHint">The final amount adjusted for inflation, showing its future purchasing power.</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__label" id="realTotalProfitLabel">Real Total Profit</div>
+                        <div class="result-card__value" id="realTotalProfitValue">0</div>
+                        <div class="result-card__hint" id="realTotalProfitHint">The actual profit in terms of purchasing power after accounting for inflation.</div>
                     </div>
                 </div>
             </div>
@@ -900,12 +925,13 @@
         }
 
         // Generate data points for the chart with a daily simulation model.
-        function generateChartData(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency) {
+        function generateChartData(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency, inflationRate) {
             if (termDays < 1) return [];
 
             const annualRate = rate / 100;
+            const annualInflationRate = (inflationRate || 0) / 100;
             const dailyRate = annualRate / 365;
-            const dataPoints = [{ day: 0, amount: principal }];
+            const dataPoints = [{ day: 0, amount: principal, realAmount: principal }];
             let amount = principal;
 
             // Use a step to keep the number of points reasonable for performance
@@ -922,7 +948,8 @@
                 }
 
                 if (day % step === 0 || day === termDays) {
-                    dataPoints.push({ day: day, amount: amount });
+                    const realAmount = amount / Math.pow(1 + annualInflationRate, day / 365);
+                    dataPoints.push({ day: day, amount: amount, realAmount: realAmount });
                 }
             }
             return dataPoints;
@@ -946,6 +973,12 @@
                 targetMonthlyIncome: "Target Monthly Income (X)",
                 targetMonthlyIncomeHint: "The monthly income you want to achieve from your investment. This helps plan for financial goals.",
                 calculatedResults: "Calculated Results",
+                inflationRate: "Expected Annual Inflation (%)",
+                inflationRateHint: "The rate at which money loses its value. This helps calculate the real return on your investment.",
+                realFinalAmount: "Real Final Amount",
+                realFinalAmountHint: "The final amount adjusted for inflation, showing its future purchasing power.",
+                realTotalProfit: "Real Total Profit",
+                realTotalProfitHint: "The actual profit in terms of purchasing power after accounting for inflation.",
                 finalAmount: "Final Amount",
                 finalAmountHint: "Total amount at the end of investment period including all profits",
                 totalProfit: "Total Profit",
@@ -991,7 +1024,9 @@
                 lightMode: "Light Mode",
                 languageTooltip: "Switch to English",
                 shareTooltip: "Share Scenario",
-                copiedTooltip: "Copied!"
+                copiedTooltip: "Copied!",
+                nominalAmount: "Nominal",
+                realAmount: "Real"
             },
             ru: {
                 title: "Калькулятор Инвеcтиций",
@@ -1009,6 +1044,12 @@
                 targetMonthlyIncome: "Целевой Меcячный Доход (X)",
                 targetMonthlyIncomeHint: "Меcячный доход, который вы хотите получить от инвеcтиций. Это помогает планировать финанcовые цели.",
                 calculatedResults: "Вычиcляемые Параметры",
+                inflationRate: "Ожидаемая годовая инфляция (%)",
+                inflationRateHint: "Cкороcть, c которой деньги теряют cвою cтоимоcть. Это помогает раccчитать реальную доходноcть ваших инвеcтиций.",
+                realFinalAmount: "Реальная конечная cумма",
+                realFinalAmountHint: "Итоговая cумма c поправкой на инфляцию, показывающая ее будущую покупательную cпоcобноcть.",
+                realTotalProfit: "Реальный полный доход",
+                realTotalProfitHint: "Фактичеcкая прибыль в покупательной cпоcобноcти поcле учета инфляции.",
                 finalAmount: "Конечная cумма",
                 finalAmountHint: "Общая cумма в конце периода инвестиций, включая вcю прибыль",
                 totalProfit: "Полный Доход",
@@ -1054,7 +1095,9 @@
                 lightMode: "Светлый режим",
                 languageTooltip: "Переключить на русский",
                 shareTooltip: "Поделиться сценарием",
-                copiedTooltip: "Скопировано!"
+                copiedTooltip: "Скопировано!",
+                nominalAmount: "Номинал",
+                realAmount: "Реальная"
             }
         };
 
@@ -1071,6 +1114,7 @@
             additionalAmount: document.getElementById('additionalAmount'),
             additionalFrequency: document.getElementById('additionalFrequency'),
             targetMonthlyIncome: document.getElementById('targetMonthlyIncome'),
+            inflationRate: document.getElementById('inflationRate'),
             finalAmountValue: document.getElementById('finalAmountValue'),
             totalProfitValue: document.getElementById('totalProfitValue'),
             effectiveRateValue: document.getElementById('effectiveRateValue'),
@@ -1080,6 +1124,8 @@
             doubleValue: document.getElementById('doubleValue'),
             tenfoldValue: document.getElementById('tenfoldValue'),
             hundredfoldValue: document.getElementById('hundredfoldValue'),
+            realFinalAmountValue: document.getElementById('realFinalAmountValue'),
+            realTotalProfitValue: document.getElementById('realTotalProfitValue'),
             targetIncomeValue: document.getElementById('targetIncomeValue'),
             planTableBody: document.getElementById('planTableBody'),
             chartContainer: document.getElementById('chartContainer'),
@@ -1104,6 +1150,12 @@
             additionalInvestmentHint: document.getElementById('additionalInvestmentHint'),
             targetMonthlyIncomeLabel: document.getElementById('targetMonthlyIncomeLabel'),
             targetMonthlyIncomeHint: document.getElementById('targetMonthlyIncomeHint'),
+            inflationRateLabel: document.getElementById('inflationRateLabel'),
+            inflationRateHint: document.getElementById('inflationRateHint'),
+            realFinalAmountLabel: document.getElementById('realFinalAmountLabel'),
+            realFinalAmountHint: document.getElementById('realFinalAmountHint'),
+            realTotalProfitLabel: document.getElementById('realTotalProfitLabel'),
+            realTotalProfitHint: document.getElementById('realTotalProfitHint'),
             calculatedResults: document.querySelector('.results-section .section-title'),
             finalAmountLabel: document.querySelector('[id="finalAmountLabel"]'),
             finalAmountHint: document.querySelector('[id="finalAmountHint"]'),
@@ -1143,6 +1195,7 @@
                 additionalAmount: elements.additionalAmount.value,
                 additionalFrequency: elements.additionalFrequency.value,
                 targetMonthlyIncome: elements.targetMonthlyIncome.value,
+                inflationRate: elements.inflationRate.value,
                 language: currentLanguage,
                 theme: document.body.classList.contains('dark-theme')
             };
@@ -1162,6 +1215,7 @@
             elements.additionalAmount.value = state.additionalAmount || '0';
             elements.additionalFrequency.value = state.additionalFrequency || '30';
             elements.targetMonthlyIncome.value = state.targetMonthlyIncome || '1000';
+            elements.inflationRate.value = state.inflationRate || '0';
             if (state.language) currentLanguage = state.language;
             
             document.body.classList.toggle('dark-theme', state.theme);
@@ -1179,6 +1233,7 @@
                     additionalAmount: params.get('aa'),
                     additionalFrequency: params.get('af'),
                     targetMonthlyIncome: params.get('tmi'),
+                    inflationRate: params.get('inf'),
                     language: params.get('l'),
                     theme: params.get('th') === '1'
                 };
@@ -1339,6 +1394,7 @@
             const additionalAmount = parseFloat(elements.additionalAmount.value) || 0;
             const additionalFrequency = parseInt(elements.additionalFrequency.value) || 0;
             const targetIncome = parseFloat(elements.targetMonthlyIncome.value) || 0;
+            const inflationRate = parseFloat(elements.inflationRate.value) || 0;
 
             // Calculate final amount
             const finalAmount = calculateCompoundInterest(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
@@ -1354,6 +1410,12 @@
             // Calculate average profits
             const averageProfits = calculateAverageProfits(principal, finalAmount, termDays);
 
+            // Calculate inflation-adjusted values
+            const years = termDays / 365;
+            const realFinalAmount = finalAmount / Math.pow(1 + (inflationRate / 100), years);
+            const totalContributions = (additionalFrequency > 0 && additionalAmount > 0) ? Math.floor(termDays / additionalFrequency) * additionalAmount : 0;
+            const realTotalProfit = realFinalAmount - (principal + totalContributions);
+
             // Update results
             animateResultCard(elements.finalAmountValue, finalAmount, (val) => formatNumber(val));
             animateResultCard(elements.totalProfitValue, totalProfit, (val) => `${formatNumber(val)} (${totalProfitPercentage.toFixed(1)}%)`);
@@ -1361,6 +1423,8 @@
             animateResultCard(elements.theoreticalMonthlyIncomeValue, theoreticalMonthlyIncome, (val) => formatNumber(val));
             animateResultCard(elements.averageMonthlyProfitValue, averageProfits.monthly, (val) => `${formatNumber(val)} (${averageProfits.monthlyPercent.toFixed(2)}%)`);
             animateResultCard(elements.averageAnnualProfitValue, averageProfits.annual, (val) => `${formatNumber(val)} (${averageProfits.annualPercent.toFixed(2)}%)`);
+            animateResultCard(elements.realFinalAmountValue, realFinalAmount, (val) => formatNumber(val));
+            animateResultCard(elements.realTotalProfitValue, realTotalProfit, (val) => formatNumber(val));
 
             // Calculate milestones
             const milestones = calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome);
@@ -1371,7 +1435,7 @@
 
             // Calculate monthly plan
             const monthlyPlan = calculateMonthlyPlan(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
-            const chartData = generateChartData(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency);
+            const chartData = generateChartData(principal, rate, compoundingDays, termDays, additionalAmount, additionalFrequency, inflationRate);
 
             updateMonthlyPlanTable(monthlyPlan, principal);
             renderSvgChart(chartData, termDays, milestones);
@@ -1540,22 +1604,37 @@
             svg.appendChild(xAxisGroup);
 
             // --- Chart Path ---
-            const pathData = chartData.map((d, i) => {
+            const nominalPathData = chartData.map((d, i) => {
                 const x = xScale(d.day);
                 const y = yScale(d.amount);
                 return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)},${y.toFixed(2)}`;
             }).join(' ');
 
+            const realPathData = chartData.map((d, i) => {
+                const x = xScale(d.day);
+                const y = yScale(d.realAmount);
+                return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)},${y.toFixed(2)}`;
+            }).join(' ');
+
             // --- Fill Path ---
-            const fillPathData = `${pathData} L ${xScale(termDays).toFixed(2)},${(height - padding.bottom).toFixed(2)} L ${xScale(0).toFixed(2)},${(height - padding.bottom).toFixed(2)} Z`;
-            const fillPath = document.createElementNS(svgNS, 'path');
-            fillPath.setAttribute('d', fillPathData);
-            fillPath.setAttribute('class', 'chart-fill');
-            svg.appendChild(fillPath);
+            const realFillPathData = `${realPathData} L ${xScale(termDays).toFixed(2)},${(height - padding.bottom).toFixed(2)} L ${xScale(0).toFixed(2)},${(height - padding.bottom).toFixed(2)} Z`;
+            const realFillPath = document.createElementNS(svgNS, 'path');
+            realFillPath.setAttribute('d', realFillPathData);
+            realFillPath.setAttribute('class', 'chart-fill');
+            svg.appendChild(realFillPath);
+
+            // --- Inflation Loss Fill Path ---
+            const reversedRealPathForInflation = realPathData.substring(1).split('L').reverse().map(p => `L${p}`).join('');
+            const inflationFillPathData = nominalPathData + reversedRealPathForInflation + ' Z';
+            const inflationFillPath = document.createElementNS(svgNS, 'path');
+            inflationFillPath.setAttribute('d', inflationFillPathData);
+            inflationFillPath.setAttribute('class', 'chart-fill-inflation');
+            inflationFillPath.style.opacity = '0.3';
+            svg.appendChild(inflationFillPath);
 
             // --- Line Path ---
-            const linePath = document.createElementNS(svgNS, 'path');
-            linePath.setAttribute('d', pathData);
+            const linePath = document.createElementNS(svgNS, 'path'); // This is the nominal line
+            linePath.setAttribute('d', nominalPathData);
             linePath.setAttribute('class', 'chart-line');
             svg.appendChild(linePath);
 
@@ -1570,11 +1649,13 @@
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         linePath.style.strokeDashoffset = '0';
-                        fillPath.style.opacity = '1';
+                        realFillPath.style.opacity = '1';
+                        inflationFillPath.style.opacity = '0.3';
                     });
                 });
             } else {
-                fillPath.style.opacity = '1'; // Show fill immediately if there's no line to draw
+                realFillPath.style.opacity = '1'; // Show fill immediately if there's no line to draw
+                inflationFillPath.style.opacity = '0.3';
             }
 
             // --- Milestone Markers ---
@@ -1674,9 +1755,11 @@
                 indicatorPoint.setAttribute('r', 5);
 
                 // Update tooltip content and position
-                const dayLabel = currentLanguage === 'ru' ? 'День' : 'Day';
-                const amountLabel = currentLanguage === 'ru' ? 'Сумма' : 'Amount';
-                tooltip.innerHTML = `<strong>${dayLabel}:</strong> ${Math.round(closestPoint.day)}<br><strong>${amountLabel}:</strong> ${formatNumber(closestPoint.amount)}`;
+                const t = translations[currentLanguage];
+                const dayLabel = t.month; // Using month label for consistency
+                const nominalLabel = t.nominalAmount;
+                const realLabel = t.realAmount;
+                tooltip.innerHTML = `<strong>${dayLabel}:</strong> ${Math.round(closestPoint.day / 30)}<br><strong>${nominalLabel}:</strong> ${formatNumber(closestPoint.amount)}<br><strong>${realLabel}:</strong> ${formatNumber(closestPoint.realAmount)}`;
                 
                 tooltip.style.left = `${pointX}px`;
                 tooltip.style.top = `${pointY}px`;
@@ -1789,6 +1872,7 @@
                 aa: elements.additionalAmount.value,
                 af: elements.additionalFrequency.value,
                 tmi: elements.targetMonthlyIncome.value,
+                inf: elements.inflationRate.value,
                 l: currentLanguage,
                 th: document.body.classList.contains('dark-theme') ? '1' : '0'
             };
@@ -1814,6 +1898,7 @@
             elements.additionalAmount.value = '0';
             elements.additionalFrequency.value = '30';
             elements.targetMonthlyIncome.value = '1000';
+            elements.inflationRate.value = '0';
             
             updateCalculations();
         });
