@@ -98,6 +98,44 @@
             transform: translateY(-1px);
         }
 
+        .header__button--icon {
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header__button--icon svg {
+            stroke: white;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Tooltip styles */
+        .header__button--icon::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+            background: var(--text);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-bottom: 8px;
+        }
+
+        .header__button--icon:hover::before {
+            opacity: 1;
+        }
+
         .calculator {
             display: grid;
             grid-template-columns: 1fr;
@@ -460,6 +498,9 @@
                         <img src="https://img.shields.io/badge/License-MIT-blue" alt="License: MIT">
                     </a>
                 </div>
+                <button class="header__button header__button--icon" id="resetButton" data-tooltip="Reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M21 21v-5h-5"/></svg>
+                </button>
                 <button class="header__button" id="languageToggle">RU</button>
             </div>
         </div>
@@ -870,7 +911,8 @@
                 noAdditional: "No Additional",
                 double: "Double",
                 tenfold: "Tenfold",
-                hundredfold: "Hundredfold"
+                hundredfold: "Hundredfold",
+                resetTooltip: "Reset Form"
             },
             ru: {
                 title: "Калькулятор Инвеcтиций",
@@ -927,7 +969,8 @@
                 noAdditional: "Без Дополнительных",
                 double: "Удвоение",
                 tenfold: "Удеcятерение",
-                hundredfold: "Увеличение в 100 раз"
+                hundredfold: "Увеличение в 100 раз",
+                resetTooltip: "Сбросить форму"
             }
         };
 
@@ -955,7 +998,8 @@
             hundredfoldValue: document.getElementById('hundredfoldValue'),
             targetIncomeValue: document.getElementById('targetIncomeValue'),
             planTableBody: document.getElementById('planTableBody'),
-            chartContainer: document.getElementById('chartContainer')
+            chartContainer: document.getElementById('chartContainer'),
+            resetButton: document.getElementById('resetButton')
         };
 
         // Translation elements mapping
@@ -999,6 +1043,49 @@
             monthlyIncomeLabel: document.getElementById('monthlyIncomeLabel'),
             monthlyPercentageLabel: document.getElementById('monthlyPercentageLabel')
         };
+
+        // --- LocalStorage Persistence ---
+        const STORAGE_KEY = 'revCalcState';
+
+        function saveState() {
+            const state = {
+                initialAmount: elements.initialAmount.value,
+                interestRate: elements.interestRate.value,
+                compounding: elements.compounding.value,
+                investmentTerm: elements.investmentTerm.value,
+                termUnit: elements.termUnit.value,
+                additionalAmount: elements.additionalAmount.value,
+                additionalFrequency: elements.additionalFrequency.value,
+                targetMonthlyIncome: elements.targetMonthlyIncome.value,
+                language: currentLanguage
+            };
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {
+                console.error("Error saving state to localStorage", e);
+            }
+        }
+
+        function loadState() {
+            try {
+                const savedState = localStorage.getItem(STORAGE_KEY);
+                if (!savedState) return;
+
+                const state = JSON.parse(savedState);
+                elements.initialAmount.value = state.initialAmount || '10000';
+                elements.interestRate.value = state.interestRate || '8';
+                elements.compounding.value = state.compounding || '365';
+                elements.investmentTerm.value = state.investmentTerm || '10';
+                elements.termUnit.value = state.termUnit || '365';
+                elements.additionalAmount.value = state.additionalAmount || '0';
+                elements.additionalFrequency.value = state.additionalFrequency || '30';
+                elements.targetMonthlyIncome.value = state.targetMonthlyIncome || '1000';
+                if (state.language) currentLanguage = state.language;
+            } catch (e) {
+                console.error("Error loading state from localStorage", e);
+                localStorage.removeItem(STORAGE_KEY); // Clear corrupted data
+            }
+        }
 
         // Initialize compounding options
         function initializeCompoundingOptions(selectedValues = {}) {
@@ -1082,6 +1169,48 @@
             elements.additionalFrequency.value = selectedValues.additionalFrequency || '30';
         }
 
+        // Animate a number in a result card from its current value to a new value.
+        function animateResultCard(element, endValue, formatFn) {
+            const duration = 400; // Animation duration in ms
+            const startValue = parseFloat(element.dataset.currentValue || 0);
+
+            // If the value is not a number, set it directly.
+            if (isNaN(endValue)) {
+                element.textContent = formatFn(endValue);
+                element.dataset.currentValue = 0; // Reset
+                return;
+            }
+            
+            // Store the new value
+            element.dataset.currentValue = endValue;
+
+            // If start and end are the same, no animation needed
+            if (startValue === endValue) {
+                element.textContent = formatFn(endValue);
+                return;
+            }
+
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                
+                const animatedValue = startValue + (endValue - startValue) * progress;
+                
+                element.textContent = formatFn(animatedValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animation);
+                } else {
+                    element.textContent = formatFn(endValue); // Ensure final value is exact
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
         // Update calculations
         function updateCalculations() {
             const principal = parseFloat(elements.initialAmount.value) || 0;
@@ -1109,12 +1238,12 @@
             const averageProfits = calculateAverageProfits(principal, finalAmount, termDays);
 
             // Update results
-            elements.finalAmountValue.textContent = formatNumber(finalAmount);
-            elements.totalProfitValue.textContent = formatNumber(totalProfit) + ` (${totalProfitPercentage.toFixed(1)}%)`;
-            elements.effectiveRateValue.textContent = effectiveRate.toFixed(2) + '%';
-            elements.theoreticalMonthlyIncomeValue.textContent = formatNumber(theoreticalMonthlyIncome);
-            elements.averageMonthlyProfitValue.textContent = formatNumber(averageProfits.monthly) + ` (${averageProfits.monthlyPercent.toFixed(2)}%)`;
-            elements.averageAnnualProfitValue.textContent = formatNumber(averageProfits.annual) + ` (${averageProfits.annualPercent.toFixed(2)}%)`;
+            animateResultCard(elements.finalAmountValue, finalAmount, (val) => formatNumber(val));
+            animateResultCard(elements.totalProfitValue, totalProfit, (val) => `${formatNumber(val)} (${totalProfitPercentage.toFixed(1)}%)`);
+            animateResultCard(elements.effectiveRateValue, effectiveRate, (val) => `${val.toFixed(2)}%`);
+            animateResultCard(elements.theoreticalMonthlyIncomeValue, theoreticalMonthlyIncome, (val) => formatNumber(val));
+            animateResultCard(elements.averageMonthlyProfitValue, averageProfits.monthly, (val) => `${formatNumber(val)} (${averageProfits.monthlyPercent.toFixed(2)}%)`);
+            animateResultCard(elements.averageAnnualProfitValue, averageProfits.annual, (val) => `${formatNumber(val)} (${averageProfits.annualPercent.toFixed(2)}%)`);
 
             // Calculate milestones
             const milestones = calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome);
@@ -1129,6 +1258,7 @@
 
             updateMonthlyPlanTable(monthlyPlan, principal);
             renderSvgChart(chartData, termDays, milestones);
+            saveState();
         }
         
         // Render SVG chart for investment growth
@@ -1489,6 +1619,7 @@
 
             // Update button text
             elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
+            elements.resetButton.dataset.tooltip = t.resetTooltip;
 
             // Reinitialize options
             initializeCompoundingOptions(selectedValues);
@@ -1503,6 +1634,20 @@
             translateUI();
         });
 
+        elements.resetButton.addEventListener('click', () => {
+            // Set default values
+            elements.initialAmount.value = '10000';
+            elements.interestRate.value = '8';
+            elements.compounding.value = '365';
+            elements.investmentTerm.value = '10';
+            elements.termUnit.value = '365';
+            elements.additionalAmount.value = '0';
+            elements.additionalFrequency.value = '30';
+            elements.targetMonthlyIncome.value = '1000';
+            
+            updateCalculations();
+        });
+
         // Add event listeners to all input fields
         Object.values(elements).forEach(element => {
             if (element?.addEventListener) {
@@ -1512,8 +1657,8 @@
 
         // Initialize after DOM is fully loaded to ensure correct element dimensions
         document.addEventListener('DOMContentLoaded', () => {
-            initializeCompoundingOptions();
-            updateCalculations();
+            loadState();
+            translateUI();
         });
     </script>
 </body>

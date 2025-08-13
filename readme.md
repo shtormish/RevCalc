@@ -195,7 +195,7 @@ Modify CSS variables in the `:root` selector to change the color scheme:
 ### Data Safety
 - **Input Validation**: Sanitized numeric inputs
 - **Error Handling**: Graceful handling of edge cases
-- **No Storage**: No cookies or local storage usage
+- **Local Storage**: Uses `localStorage` to save your last entered values for convenience. This data is stored only in your browser and is not transmitted anywhere.
 
 ## ⚖️ Disclaimer
 
