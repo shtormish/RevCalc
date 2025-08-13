@@ -6,7 +6,7 @@ A modern, responsive single-page investment calculator that calculates compound 
   <a href="https://shtormish.github.io/RevCalc/"><strong>🚀 Live Demo</strong></a>
 </div>
 
-![Investment Calculator Screenshot](Screenshot%202025-08-12%20154036.png)
+![Investment Calculator Screenshot](Screenshot%202025-08-13%20123302.png)
 
 ## Table of Contents
 * [Features](#-features)
