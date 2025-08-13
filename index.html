@@ -529,12 +529,26 @@
             color: var(--danger);
         }
 
+        .plan-table__cell, .plan-table__header {
+            transition: padding 0.2s ease-in-out;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
             .header {
-                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: center;
                 gap: 15px;
                 text-align: center;
+            }
+
+            .header__title {
+                width: 100%;
+                text-align: center;
+            }
+
+            .header__actions {
+                justify-content: center;
             }
 
             .input-group__row {
@@ -564,9 +578,14 @@
                 min-height: 90px;
             }
             
-            .result-value {
+            .result-card__value {
                 font-size: 1.1rem;
                 margin: 6px 0;
+            }
+
+            .plan-table__cell, .plan-table__header {
+                padding-left: 8px;
+                padding-right: 8px;
             }
         }
 
@@ -589,8 +608,14 @@
                 min-height: 80px;
             }
             
-            .result-value {
+            .result-card__value {
                 font-size: 1rem;
+            }
+
+            .plan-table__cell, .plan-table__header {
+                padding-left: 4px;
+                padding-right: 4px;
+                font-size: 0.9rem;
             }
         }
     </style>
