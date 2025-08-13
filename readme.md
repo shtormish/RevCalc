@@ -36,6 +36,7 @@ A modern, responsive single-page investment calculator that calculates compound 
 - **Effective Rate**: Actual annualized return (CAGR)
 - **Theoretical Monthly Income**: Potential monthly income from final amount
 - **Average Monthly/Annual Profit**: Real average capital growth rates
+- **Inflation Adjustment**: Input expected inflation to see the real (inflation-adjusted) growth of your investment, visualized on the chart.
 - **Key Milestones**: Time to double, tenfold, and hundredfold investments
 - **Target Income Timeline**: When monthly income reaches target level
 - **Monthly Income Plan**: Detailed month-by-month growth breakdown
@@ -50,6 +51,12 @@ A modern, responsive single-page investment calculator that calculates compound 
   - Color-coded milestone markers directly on the chart.
 - **Real-time Updates**: All calculations update instantly
 - **Comprehensive Tooltips**: Detailed explanations for all parameters
+- **Header Controls**:
+  - **Theme Toggle**: Switch between light and dark modes for comfortable viewing. Your preference is saved for your next visit.
+  - **Reset Form**: Instantly clear all inputs and return to the default values.
+  - **Share Scenario**: Generate a unique URL with all current parameters to share your calculation with others.
+  - **Language Toggle**: Switch between English and Russian.
+- **Persistent State**: Your last entered values are automatically saved in your browser, so you can continue where you left off.
 
 ## 🚀 Quick Start
 

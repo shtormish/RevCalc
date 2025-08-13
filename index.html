@@ -241,6 +241,35 @@
             line-height: 1.4;
         }
 
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .validation-tooltip {
+            position: absolute;
+            bottom: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+            z-index: 10;
+            background: var(--text);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .input-wrapper:hover .validation-tooltip,
+        .input-wrapper:focus-within .validation-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .input-group__field {
             width: 100%;
             padding: 10px 14px;
@@ -453,6 +482,11 @@
             stroke: var(--secondary);
         }
 
+        body.dark-theme .validation-tooltip {
+            background: #f9fafb;
+            color: #1f2937;
+        }
+
         .plan-section {
             background: white;
             border-radius: 16px;
@@ -594,33 +628,39 @@
                 <div class="input-grid">
                     <div class="input-group">
                         <label class="input-group__label" id="initialAmountLabel">Initial Investment Amount</label>
-                        <input type="number" class="input-group__field" id="initialAmount" value="10000" min="0">
+                        <div class="input-wrapper">
+                            <input type="number" class="input-group__field" id="initialAmount" value="10000" min="0">
+                            <div class="validation-tooltip" id="initialAmountValidationTooltip"></div>
+                        </div>
                         <div class="input-group__hint" id="initialAmountHint">The starting amount of your investment. This is the base amount that will earn interest over time.</div>
                     </div>
 
                     <div class="input-group">
-                        <label class="input-group__label" id="interestRateLabel">Annual Interest Rate (%)</label>
-                        <input type="number" class="input-group__field" id="interestRate" value="8" min="0" max="100" step="0.1">
-                        <div class="input-group__hint" id="interestRateHint">The annual percentage rate at which your investment will grow. Higher rates mean faster growth.</div>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="input-group__label" id="compoundingLabel">Compounding Period</label>
-                        <select class="input-group__field" id="compounding">
-                            <option value="0">No Compounding</option>
-                            <option value="1">Daily</option>
-                            <option value="30">Monthly</option>
-                            <option value="90">Quarterly</option>
-                            <option value="180">Semi-Annually</option>
-                            <option value="365" selected>Annually</option>
-                        </select>
-                        <div class="input-group__hint" id="compoundingHint">How often interest is added to your principal. More frequent compounding leads to higher returns.</div>
+                        <label class="input-group__label" id="interestRateCompoundingLabel">Interest Rate & Compounding</label>
+                        <div class="input-group__row">
+                            <div class="input-wrapper">
+                                <input type="number" class="input-group__field" id="interestRate" value="8" step="0.1">
+                                <div class="validation-tooltip" id="interestRateValidationTooltip"></div>
+                            </div>
+                            <select class="input-group__field" id="compounding">
+                                <option value="0">No Compounding</option>
+                                <option value="1">Daily</option>
+                                <option value="30">Monthly</option>
+                                <option value="90">Quarterly</option>
+                                <option value="180">Semi-Annually</option>
+                                <option value="365" selected>Annually</option>
+                            </select>
+                        </div>
+                        <div class="input-group__hint" id="interestRateCompoundingHint">The annual rate and how often interest is added. More frequent compounding leads to higher returns.</div>
                     </div>
 
                     <div class="input-group">
                         <label class="input-group__label" id="investmentTermLabel">Investment Term</label>
                         <div class="input-group__row">
-                            <input type="number" class="input-group__field" id="investmentTerm" value="10" min="0">
+                            <div class="input-wrapper">
+                                <input type="number" class="input-group__field" id="investmentTerm" value="10" min="0">
+                                <div class="validation-tooltip" id="investmentTermValidationTooltip"></div>
+                            </div>
                             <select class="input-group__field" id="termUnit">
                                 <option value="1">Days</option>
                                 <option value="30">Months</option>
@@ -633,7 +673,10 @@
                     <div class="input-group">
                         <label class="input-group__label" id="additionalInvestmentLabel">Additional Investment</label>
                         <div class="input-group__row">
-                            <input type="number" class="input-group__field" id="additionalAmount" value="0" min="0">
+                            <div class="input-wrapper">
+                                <input type="number" class="input-group__field" id="additionalAmount" value="0" min="0">
+                                <div class="validation-tooltip" id="additionalAmountValidationTooltip"></div>
+                            </div>
                             <select class="input-group__field" id="additionalFrequency">
                                 <option value="0">No Additional</option>
                                 <option value="1">Daily</option>
@@ -647,13 +690,19 @@
 
                     <div class="input-group">
                         <label class="input-group__label" id="targetMonthlyIncomeLabel">Target Monthly Income (X)</label>
-                        <input type="number" class="input-group__field" id="targetMonthlyIncome" value="1000" min="0">
+                        <div class="input-wrapper">
+                            <input type="number" class="input-group__field" id="targetMonthlyIncome" value="1000" min="0">
+                            <div class="validation-tooltip" id="targetMonthlyIncomeValidationTooltip"></div>
+                        </div>
                         <div class="input-group__hint" id="targetMonthlyIncomeHint">The monthly income you want to achieve from your investment. This helps plan for financial goals.</div>
                     </div>
 
                     <div class="input-group">
                         <label class="input-group__label" id="inflationRateLabel">Expected Annual Inflation (%)</label>
-                        <input type="number" class="input-group__field" id="inflationRate" value="0" min="0" max="100" step="0.1">
+                        <div class="input-wrapper">
+                            <input type="number" class="input-group__field" id="inflationRate" value="0" step="0.1">
+                            <div class="validation-tooltip" id="inflationRateValidationTooltip"></div>
+                        </div>
                         <div class="input-group__hint" id="inflationRateHint">The rate at which money loses its value. This helps calculate the real return on your investment.</div>
                     </div>
                 </div>
@@ -691,16 +740,6 @@
                         <div class="result-card__label" id="averageAnnualProfitLabel">Avg Annual Profit</div>
                         <div class="result-card__value" id="averageAnnualProfitValue">0</div>
                         <div class="result-card__hint" id="averageAnnualProfitHint">Average annual capital growth during investment period</div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-card__label" id="realFinalAmountLabel">Real Final Amount</div>
-                        <div class="result-card__value" id="realFinalAmountValue">0</div>
-                        <div class="result-card__hint" id="realFinalAmountHint">The final amount adjusted for inflation, showing its future purchasing power.</div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-card__label" id="realTotalProfitLabel">Real Total Profit</div>
-                        <div class="result-card__value" id="realTotalProfitValue">0</div>
-                        <div class="result-card__hint" id="realTotalProfitHint">The actual profit in terms of purchasing power after accounting for inflation.</div>
                     </div>
                 </div>
             </div>
@@ -962,10 +1001,8 @@
                 inputParameters: "Input Parameters",
                 initialAmount: "Initial Investment Amount",
                 initialAmountHint: "The starting amount of your investment. This is the base amount that will earn interest over time.",
-                interestRate: "Annual Interest Rate (%)",
-                interestRateHint: "The annual percentage rate at which your investment will grow. Higher rates mean faster growth.",
-                compounding: "Compounding Period",
-                compoundingHint: "How often interest is added to your principal. More frequent compounding leads to higher returns.",
+                interestRateCompounding: "Interest Rate & Compounding",
+                interestRateCompoundingHint: "The annual rate and how often interest is added. More frequent compounding leads to higher returns.",
                 investmentTerm: "Investment Term",
                 investmentTermHint: "The duration of your investment. Longer terms generally lead to higher returns due to compounding.",
                 additionalInvestment: "Additional Investment",
@@ -975,10 +1012,6 @@
                 calculatedResults: "Calculated Results",
                 inflationRate: "Expected Annual Inflation (%)",
                 inflationRateHint: "The rate at which money loses its value. This helps calculate the real return on your investment.",
-                realFinalAmount: "Real Final Amount",
-                realFinalAmountHint: "The final amount adjusted for inflation, showing its future purchasing power.",
-                realTotalProfit: "Real Total Profit",
-                realTotalProfitHint: "The actual profit in terms of purchasing power after accounting for inflation.",
                 finalAmount: "Final Amount",
                 finalAmountHint: "Total amount at the end of investment period including all profits",
                 totalProfit: "Total Profit",
@@ -1026,17 +1059,21 @@
                 shareTooltip: "Share Scenario",
                 copiedTooltip: "Copied!",
                 nominalAmount: "Nominal",
-                realAmount: "Real"
+                realAmount: "Real",
+                initialAmount_tt: "Value must be ≥ 0",
+                interestRate_tt: "Can be any value, including negative",
+                investmentTerm_tt: "Value must be ≥ 0",
+                additionalAmount_tt: "Value must be ≥ 0",
+                targetMonthlyIncome_tt: "Value must be ≥ 0",
+                inflationRate_tt: "Can be any value, including negative"
             },
             ru: {
                 title: "Калькулятор Инвеcтиций",
                 inputParameters: "Входные Параметры",
                 initialAmount: "Начальная cумма Инвеcтиций",
                 initialAmountHint: "Стартовая cумма вашего вложения. Это базовая cумма, которая будет приноcить проценты co временем.",
-                interestRate: "Годовая Процентная cтавка (%)",
-                interestRateHint: "Годовой процент, по которому будет раcти ваше вложение. Более выcокие cтавки означают более быcтрый роcт.",
-                compounding: "Период Капитализации",
-                compoundingHint: "Как чаcто проценты добавляютcя к оcновной cумме. Более чаcтая капитализация приводит к более выcокой доходноcти.",
+                interestRateCompounding: "Процентная ставка и Капитализация",
+                interestRateCompoundingHint: "Годовая ставка и как часто начисляются проценты. Более частая капитализация ведет к большей доходности.",
                 investmentTerm: "Срок Инвеcтиций",
                 investmentTermHint: "Продолжительноcть вашего вложения. Более длительные cроки обычно приводят к более выcокой доходноcти благодаря капитализации.",
                 additionalInvestment: "Дополнительные Вложения",
@@ -1046,10 +1083,6 @@
                 calculatedResults: "Вычиcляемые Параметры",
                 inflationRate: "Ожидаемая годовая инфляция (%)",
                 inflationRateHint: "Cкороcть, c которой деньги теряют cвою cтоимоcть. Это помогает раccчитать реальную доходноcть ваших инвеcтиций.",
-                realFinalAmount: "Реальная конечная cумма",
-                realFinalAmountHint: "Итоговая cумма c поправкой на инфляцию, показывающая ее будущую покупательную cпоcобноcть.",
-                realTotalProfit: "Реальный полный доход",
-                realTotalProfitHint: "Фактичеcкая прибыль в покупательной cпоcобноcти поcле учета инфляции.",
                 finalAmount: "Конечная cумма",
                 finalAmountHint: "Общая cумма в конце периода инвестиций, включая вcю прибыль",
                 totalProfit: "Полный Доход",
@@ -1097,7 +1130,13 @@
                 shareTooltip: "Поделиться сценарием",
                 copiedTooltip: "Скопировано!",
                 nominalAmount: "Номинал",
-                realAmount: "Реальная"
+                realAmount: "Реальная",
+                initialAmount_tt: "Значение должно быть ≥ 0",
+                interestRate_tt: "Может быть любым, включая отрицательное",
+                investmentTerm_tt: "Значение должно быть ≥ 0",
+                additionalAmount_tt: "Значение должно быть ≥ 0",
+                targetMonthlyIncome_tt: "Значение должно быть ≥ 0",
+                inflationRate_tt: "Может быть любым, включая отрицательное"
             }
         };
 
@@ -1124,8 +1163,6 @@
             doubleValue: document.getElementById('doubleValue'),
             tenfoldValue: document.getElementById('tenfoldValue'),
             hundredfoldValue: document.getElementById('hundredfoldValue'),
-            realFinalAmountValue: document.getElementById('realFinalAmountValue'),
-            realTotalProfitValue: document.getElementById('realTotalProfitValue'),
             targetIncomeValue: document.getElementById('targetIncomeValue'),
             planTableBody: document.getElementById('planTableBody'),
             chartContainer: document.getElementById('chartContainer'),
@@ -1140,10 +1177,8 @@
             inputParameters: document.querySelector('.input-section .section-title'),
             initialAmountLabel: document.getElementById('initialAmountLabel'),
             initialAmountHint: document.getElementById('initialAmountHint'),
-            interestRateLabel: document.getElementById('interestRateLabel'),
-            interestRateHint: document.getElementById('interestRateHint'),
-            compoundingLabel: document.getElementById('compoundingLabel'),
-            compoundingHint: document.getElementById('compoundingHint'),
+            interestRateCompoundingLabel: document.getElementById('interestRateCompoundingLabel'),
+            interestRateCompoundingHint: document.getElementById('interestRateCompoundingHint'),
             investmentTermLabel: document.getElementById('investmentTermLabel'),
             investmentTermHint: document.getElementById('investmentTermHint'),
             additionalInvestmentLabel: document.getElementById('additionalInvestmentLabel'),
@@ -1152,10 +1187,6 @@
             targetMonthlyIncomeHint: document.getElementById('targetMonthlyIncomeHint'),
             inflationRateLabel: document.getElementById('inflationRateLabel'),
             inflationRateHint: document.getElementById('inflationRateHint'),
-            realFinalAmountLabel: document.getElementById('realFinalAmountLabel'),
-            realFinalAmountHint: document.getElementById('realFinalAmountHint'),
-            realTotalProfitLabel: document.getElementById('realTotalProfitLabel'),
-            realTotalProfitHint: document.getElementById('realTotalProfitHint'),
             calculatedResults: document.querySelector('.results-section .section-title'),
             finalAmountLabel: document.querySelector('[id="finalAmountLabel"]'),
             finalAmountHint: document.querySelector('[id="finalAmountHint"]'),
@@ -1179,7 +1210,13 @@
             monthLabel: document.getElementById('monthLabel'),
             cumulativeAmountLabel: document.getElementById('cumulativeAmountLabel'),
             monthlyIncomeLabel: document.getElementById('monthlyIncomeLabel'),
-            monthlyPercentageLabel: document.getElementById('monthlyPercentageLabel')
+            monthlyPercentageLabel: document.getElementById('monthlyPercentageLabel'),
+            initialAmountValidationTooltip: document.getElementById('initialAmountValidationTooltip'),
+            interestRateValidationTooltip: document.getElementById('interestRateValidationTooltip'),
+            investmentTermValidationTooltip: document.getElementById('investmentTermValidationTooltip'),
+            additionalAmountValidationTooltip: document.getElementById('additionalAmountValidationTooltip'),
+            targetMonthlyIncomeValidationTooltip: document.getElementById('targetMonthlyIncomeValidationTooltip'),
+            inflationRateValidationTooltip: document.getElementById('inflationRateValidationTooltip')
         };
 
         // --- LocalStorage Persistence ---
@@ -1410,12 +1447,6 @@
             // Calculate average profits
             const averageProfits = calculateAverageProfits(principal, finalAmount, termDays);
 
-            // Calculate inflation-adjusted values
-            const years = termDays / 365;
-            const realFinalAmount = finalAmount / Math.pow(1 + (inflationRate / 100), years);
-            const totalContributions = (additionalFrequency > 0 && additionalAmount > 0) ? Math.floor(termDays / additionalFrequency) * additionalAmount : 0;
-            const realTotalProfit = realFinalAmount - (principal + totalContributions);
-
             // Update results
             animateResultCard(elements.finalAmountValue, finalAmount, (val) => formatNumber(val));
             animateResultCard(elements.totalProfitValue, totalProfit, (val) => `${formatNumber(val)} (${totalProfitPercentage.toFixed(1)}%)`);
@@ -1423,8 +1454,6 @@
             animateResultCard(elements.theoreticalMonthlyIncomeValue, theoreticalMonthlyIncome, (val) => formatNumber(val));
             animateResultCard(elements.averageMonthlyProfitValue, averageProfits.monthly, (val) => `${formatNumber(val)} (${averageProfits.monthlyPercent.toFixed(2)}%)`);
             animateResultCard(elements.averageAnnualProfitValue, averageProfits.annual, (val) => `${formatNumber(val)} (${averageProfits.annualPercent.toFixed(2)}%)`);
-            animateResultCard(elements.realFinalAmountValue, realFinalAmount, (val) => formatNumber(val));
-            animateResultCard(elements.realTotalProfitValue, realTotalProfit, (val) => formatNumber(val));
 
             // Calculate milestones
             const milestones = calculateMilestones(principal, rate, compoundingDays, additionalAmount, additionalFrequency, targetIncome);
@@ -1801,16 +1830,16 @@
             document.querySelector('.input-section .section__title').textContent = t.inputParameters;
             document.getElementById('initialAmountLabel').textContent = t.initialAmount;
             document.getElementById('initialAmountHint').textContent = t.initialAmountHint;
-            document.getElementById('interestRateLabel').textContent = t.interestRate;
-            document.getElementById('interestRateHint').textContent = t.interestRateHint;
-            document.getElementById('compoundingLabel').textContent = t.compounding;
-            document.getElementById('compoundingHint').textContent = t.compoundingHint;
+            document.getElementById('interestRateCompoundingLabel').textContent = t.interestRateCompounding;
+            document.getElementById('interestRateCompoundingHint').textContent = t.interestRateCompoundingHint;
             document.getElementById('investmentTermLabel').textContent = t.investmentTerm;
             document.getElementById('investmentTermHint').textContent = t.investmentTermHint;
             document.getElementById('additionalInvestmentLabel').textContent = t.additionalInvestment;
             document.getElementById('additionalInvestmentHint').textContent = t.additionalInvestmentHint;
             document.getElementById('targetMonthlyIncomeLabel').textContent = t.targetMonthlyIncome;
             document.getElementById('targetMonthlyIncomeHint').textContent = t.targetMonthlyIncomeHint;
+            document.getElementById('inflationRateLabel').textContent = t.inflationRate;
+            document.getElementById('inflationRateHint').textContent = t.inflationRateHint;
             document.querySelector('.results-section .section__title').textContent = t.calculatedResults;
             document.querySelector('[id="finalAmountLabel"]').textContent = t.finalAmount;
             document.querySelector('[id="finalAmountHint"]').textContent = t.finalAmountHint;
@@ -1834,6 +1863,14 @@
             document.getElementById('cumulativeAmountLabel').textContent = t.cumulativeAmount;
             document.getElementById('monthlyIncomeLabel').textContent = t.monthlyIncome;
             document.getElementById('monthlyPercentageLabel').textContent = t.monthlyPercentage;
+
+            // Update validation tooltips
+            translationElements.initialAmountValidationTooltip.textContent = t.initialAmount_tt;
+            translationElements.interestRateValidationTooltip.textContent = t.interestRate_tt;
+            translationElements.investmentTermValidationTooltip.textContent = t.investmentTerm_tt;
+            translationElements.additionalAmountValidationTooltip.textContent = t.additionalAmount_tt;
+            translationElements.targetMonthlyIncomeValidationTooltip.textContent = t.targetMonthlyIncome_tt;
+            translationElements.inflationRateValidationTooltip.textContent = t.inflationRate_tt;
 
             // Update button text
             elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
