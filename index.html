@@ -89,13 +89,19 @@
             border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.2s ease-in-out;
             box-shadow: var(--shadow);
         }
 
         .header__button:hover {
             background: var(--primary-dark);
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header__button:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: var(--shadow);
         }
 
         .header__button--icon {
@@ -103,17 +109,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .has-tooltip {
             position: relative;
         }
 
-        .header__button--icon svg {
-            stroke: white;
-            width: 20px;
-            height: 20px;
-        }
-
         /* Tooltip styles */
-        .header__button--icon::before {
+        .has-tooltip::before {
             content: attr(data-tooltip);
             position: absolute;
             bottom: 100%;
@@ -121,7 +124,7 @@
             transform: translateX(-50%);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s ease-in-out;
             z-index: 10;
             background: var(--text);
             color: white;
@@ -132,8 +135,14 @@
             margin-bottom: 8px;
         }
 
-        .header__button--icon:hover::before {
+        .has-tooltip:hover::before {
             opacity: 1;
+        }
+
+        .header__button--icon svg {
+            stroke: white;
+            width: 20px;
+            height: 20px;
         }
 
         /* Dark Theme */
@@ -164,6 +173,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        body.dark-theme .has-tooltip::before {
+            color: #1f2937;
         }
 
         body.dark-theme .input-group__field {
@@ -232,7 +245,7 @@
             border: 2px solid var(--border);
             border-radius: 12px;
             font-size: 1rem;
-            transition: all 0.2s ease;
+            transition: all 0.2s ease-in-out;
             background: var(--secondary);
         }
 
@@ -259,7 +272,7 @@
             border-radius: 12px;
             padding: 15px;
             text-align: center;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease-in-out;
             min-height: 100px;
         }
 
@@ -400,7 +413,7 @@
             font-size: 0.85rem;
             pointer-events: none; /* So it doesn't interfere with mouse events */
             transform: translate(-50%, -120%); /* Position above cursor */
-            transition: opacity 0.1s ease;
+            transition: opacity 0.1s ease-in-out;
             white-space: nowrap;
             z-index: 10;
         }
@@ -549,14 +562,14 @@
                         <img src="https://img.shields.io/badge/License-MIT-blue" alt="License: MIT">
                     </a>
                 </div>
-                <button class="header__button header__button--icon" id="resetButton" data-tooltip="Reset">
+                <button class="header__button header__button--icon has-tooltip" id="resetButton" data-tooltip="Reset">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M21 21v-5h-5"/></svg>
                 </button>
-                <button class="header__button header__button--icon" id="themeToggleButton" data-tooltip="Dark Mode">
+                <button class="header__button header__button--icon has-tooltip" id="themeToggleButton" data-tooltip="Dark Mode">
                     <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                     <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 </button>
-                <button class="header__button" id="languageToggle">RU</button>
+                <button class="header__button has-tooltip" id="languageToggle" data-tooltip="Switch Language">RU</button>
             </div>
         </div>
 
@@ -969,7 +982,8 @@
                 hundredfold: "Hundredfold",
                 resetTooltip: "Reset Form",
                 darkMode: "Dark Mode",
-                lightMode: "Light Mode"
+                lightMode: "Light Mode",
+                languageTooltip: "Switch to English"
             },
             ru: {
                 title: "Калькулятор Инвеcтиций",
@@ -1029,7 +1043,8 @@
                 hundredfold: "Увеличение в 100 раз",
                 resetTooltip: "Сбросить форму",
                 darkMode: "Тёмный режим",
-                lightMode: "Светлый режим"
+                lightMode: "Светлый режим",
+                languageTooltip: "Переключить на русский"
             }
         };
 
@@ -1693,6 +1708,8 @@
             // Update button text
             elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
             elements.resetButton.dataset.tooltip = t.resetTooltip;
+            const oppositeLang = currentLanguage === 'en' ? 'ru' : 'en';
+            elements.languageToggle.dataset.tooltip = translations[oppositeLang].languageTooltip;
             updateThemeButton();
 
             // Reinitialize options
@@ -1715,6 +1732,9 @@
         });
 
         elements.resetButton.addEventListener('click', () => {
+            // Clear the saved state from storage to ensure a clean reset
+            localStorage.removeItem(STORAGE_KEY);
+
             // Set default values
             elements.initialAmount.value = '10000';
             elements.interestRate.value = '8';
