@@ -136,6 +136,48 @@
             opacity: 1;
         }
 
+        /* Dark Theme */
+        body.dark-theme {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #1f2937;
+            --text: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border: #374151;
+            --grid-line-color: #4b5563;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+        }
+
+        body.dark-theme .header,
+        body.dark-theme .input-section,
+        body.dark-theme .results-section,
+        body.dark-theme .milestones-section,
+        body.dark-theme .chart-section,
+        body.dark-theme .plan-section {
+            background: var(--secondary);
+        }
+
+        body.dark-theme .header__title {
+            background: linear-gradient(135deg, var(--primary) 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        body.dark-theme .input-group__field {
+            background: #374151;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        body.dark-theme .milestone-card,
+        body.dark-theme .plan-table__row:hover,
+        body.dark-theme .plan-table__header {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        }
+
         .calculator {
             display: grid;
             grid-template-columns: 1fr;
@@ -377,6 +419,15 @@
             pointer-events: none;
         }
 
+        body.dark-theme .chart-tooltip {
+            background: #f9fafb;
+            color: #1f2937;
+        }
+
+        body.dark-theme .chart-indicator-point {
+            stroke: var(--secondary);
+        }
+
         .plan-section {
             background: white;
             border-radius: 16px;
@@ -500,6 +551,10 @@
                 </div>
                 <button class="header__button header__button--icon" id="resetButton" data-tooltip="Reset">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M21 21v-5h-5"/></svg>
+                </button>
+                <button class="header__button header__button--icon" id="themeToggleButton" data-tooltip="Dark Mode">
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 </button>
                 <button class="header__button" id="languageToggle">RU</button>
             </div>
@@ -912,7 +967,9 @@
                 double: "Double",
                 tenfold: "Tenfold",
                 hundredfold: "Hundredfold",
-                resetTooltip: "Reset Form"
+                resetTooltip: "Reset Form",
+                darkMode: "Dark Mode",
+                lightMode: "Light Mode"
             },
             ru: {
                 title: "Калькулятор Инвеcтиций",
@@ -970,7 +1027,9 @@
                 double: "Удвоение",
                 tenfold: "Удеcятерение",
                 hundredfold: "Увеличение в 100 раз",
-                resetTooltip: "Сбросить форму"
+                resetTooltip: "Сбросить форму",
+                darkMode: "Тёмный режим",
+                lightMode: "Светлый режим"
             }
         };
 
@@ -999,7 +1058,8 @@
             targetIncomeValue: document.getElementById('targetIncomeValue'),
             planTableBody: document.getElementById('planTableBody'),
             chartContainer: document.getElementById('chartContainer'),
-            resetButton: document.getElementById('resetButton')
+            resetButton: document.getElementById('resetButton'),
+            themeToggleButton: document.getElementById('themeToggleButton')
         };
 
         // Translation elements mapping
@@ -1057,7 +1117,8 @@
                 additionalAmount: elements.additionalAmount.value,
                 additionalFrequency: elements.additionalFrequency.value,
                 targetMonthlyIncome: elements.targetMonthlyIncome.value,
-                language: currentLanguage
+                language: currentLanguage,
+                theme: document.body.classList.contains('dark-theme')
             };
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -1081,6 +1142,9 @@
                 elements.additionalFrequency.value = state.additionalFrequency || '30';
                 elements.targetMonthlyIncome.value = state.targetMonthlyIncome || '1000';
                 if (state.language) currentLanguage = state.language;
+                if (state.theme) {
+                    document.body.classList.add('dark-theme');
+                }
             } catch (e) {
                 console.error("Error loading state from localStorage", e);
                 localStorage.removeItem(STORAGE_KEY); // Clear corrupted data
@@ -1209,6 +1273,15 @@
             }
 
             requestAnimationFrame(animation);
+        }
+
+        function updateThemeButton() {
+            const isDark = document.body.classList.contains('dark-theme');
+            const t = translations[currentLanguage];
+            elements.themeToggleButton.dataset.tooltip = isDark ? t.lightMode : t.darkMode;
+            
+            elements.themeToggleButton.querySelector('.icon-moon').style.display = isDark ? 'none' : 'block';
+            elements.themeToggleButton.querySelector('.icon-sun').style.display = isDark ? 'block' : 'none';
         }
 
         // Update calculations
@@ -1620,6 +1693,7 @@
             // Update button text
             elements.languageToggle.textContent = currentLanguage === 'en' ? 'RU' : 'EN';
             elements.resetButton.dataset.tooltip = t.resetTooltip;
+            updateThemeButton();
 
             // Reinitialize options
             initializeCompoundingOptions(selectedValues);
@@ -1632,6 +1706,12 @@
         elements.languageToggle.addEventListener('click', () => {
             currentLanguage = (currentLanguage === 'en') ? 'ru' : 'en';
             translateUI();
+        });
+
+        elements.themeToggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            updateThemeButton();
+            saveState();
         });
 
         elements.resetButton.addEventListener('click', () => {
