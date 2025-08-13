@@ -82,6 +82,13 @@
             gap: 10px;
         }
 
+        .header__buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .header__button {
             background: var(--primary);
             color: white;
@@ -193,6 +200,11 @@
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
         }
 
+        body.dark-theme .result-card {
+            background: #374151;
+            border-color: #4b5563;
+        }
+
         .calculator {
             display: grid;
             grid-template-columns: 1fr;
@@ -300,6 +312,7 @@
 
         .result-card {
             background: var(--secondary);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 15px;
             text-align: center;
@@ -498,6 +511,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            table-layout: fixed;
         }
 
         .plan-table__header {
@@ -510,6 +524,7 @@
 
         .plan-table__cell {
             padding: 12px 16px;
+            word-wrap: break-word;
             border-bottom: 1px solid var(--border);
         }
 
@@ -536,10 +551,8 @@
         /* Responsive design */
         @media (max-width: 768px) {
             .header {
-                flex-wrap: wrap;
-                justify-content: center;
+                flex-direction: column;
                 gap: 15px;
-                text-align: center;
             }
 
             .header__title {
@@ -548,11 +561,13 @@
             }
 
             .header__actions {
-                justify-content: center;
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
             }
 
-            .input-group__row {
-                grid-template-columns: 1fr;
+            .header__badges, .header__buttons {
+                justify-content: center;
             }
 
             .input-grid {
@@ -587,12 +602,20 @@
                 padding-left: 8px;
                 padding-right: 8px;
             }
+
+            .plan-table__header {
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
             .results-grid {
                 grid-template-columns: 1fr;
                 gap: 8px;
+            }
+            .input-group__row {
+                grid-template-columns: 1fr 3fr;
+                gap: 10px;
             }
 
             body {
@@ -618,6 +641,12 @@
                 font-size: 0.9rem;
             }
         }
+
+        @media (max-width: 300px) {
+            .input-group__row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -633,17 +662,19 @@
                         <img src="https://img.shields.io/badge/License-MIT-blue" alt="License: MIT">
                     </a>
                 </div>
-                <button class="header__button header__button--icon has-tooltip" id="resetButton" data-tooltip="Reset">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M21 21v-5h-5"/></svg>
-                </button>
-                <button class="header__button header__button--icon has-tooltip" id="themeToggleButton" data-tooltip="Dark Mode">
-                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
-                <button class="header__button header__button--icon has-tooltip" id="shareButton" data-tooltip="Share Scenario">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                </button>
-                <button class="header__button has-tooltip" id="languageToggle" data-tooltip="Switch Language">RU</button>
+                <div class="header__buttons">
+                    <button class="header__button header__button--icon has-tooltip" id="resetButton" data-tooltip="Reset">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M21 21v-5h-5"/></svg>
+                    </button>
+                    <button class="header__button header__button--icon has-tooltip" id="themeToggleButton" data-tooltip="Dark Mode">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        <svg class="icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
+                    <button class="header__button header__button--icon has-tooltip" id="shareButton" data-tooltip="Share Scenario">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                    </button>
+                    <button class="header__button has-tooltip" id="languageToggle" data-tooltip="Switch Language">RU</button>
+                </div>
             </div>
         </div>
 
@@ -1495,7 +1526,7 @@
             renderSvgChart(chartData, termDays, milestones);
             saveState();
         }
-        
+
         // Render SVG chart for investment growth
         function renderSvgChart(chartData, termDays, milestones) {
             const container = elements.chartContainer;
@@ -1514,7 +1545,10 @@
             const svgNS = "http://www.w3.org/2000/svg";
             const svg = document.createElementNS(svgNS, "svg");
 
-            const padding = { top: 20, right: 20, bottom: 50, left: 70 };
+            const isMobile = window.innerWidth < 480;
+            const padding = isMobile
+                ? { top: 5, right: 23, bottom: 20, left: 55 }
+                : { top: 10, right: 35, bottom: 25, left: 65 };
             const width = container.clientWidth;
             const height = container.clientHeight;
 
@@ -1966,11 +2000,8 @@
         });
 
         // Add event listeners to all input fields
-        Object.values(elements).forEach(element => {
-            if (element?.addEventListener) {
-                element.addEventListener('input', updateCalculations);
-            }
-        });
+        ['initialAmount', 'interestRate', 'compounding', 'investmentTerm', 'termUnit', 'additionalAmount', 'additionalFrequency', 'targetMonthlyIncome', 'inflationRate']
+            .forEach(id => elements[id].addEventListener('input', updateCalculations));
 
         // Initialize after DOM is fully loaded to ensure correct element dimensions
         document.addEventListener('DOMContentLoaded', () => {
